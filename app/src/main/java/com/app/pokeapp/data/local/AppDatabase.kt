@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [PokemonEntity::class, ChallengerEntity::class, RandomEncounterEntity::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -224,16 +224,16 @@ abstract class AppDatabase : RoomDatabase() {
                 ChallengerEntity(1, "Lorelei", "GYM_LEADER", "131", "Cascade Badge", "#4169E1", basePower = 10, firstBonus = 6, secondBonus = 7, thirdBonus = 8),
                 ChallengerEntity(2, "Bruno", "GYM_LEADER", "68", "Boulder Badge", "#8B4513", basePower = 11, firstBonus = 6, secondBonus = 7, thirdBonus = 8),
                 ChallengerEntity(3, "Agatha", "GYM_LEADER", "94", "Soul Badge", "#800080", basePower = 12, firstBonus = 6, secondBonus = 7, thirdBonus = 8),
-                ChallengerEntity(4, "Lance", "GYM_LEADER", "148", "Thunder Badge", "#FFD700", basePower = 14, firstBonus = 6, secondBonus = 7, thirdBonus = 8),
-                ChallengerEntity(5, "Gary", "TRAINER", "6,9,59,68,89,95,103,112", null, null, basePower = 15, firstBonus = 6, secondBonus = 7, thirdBonus = 8),
-                ChallengerEntity(6, "Brock", "GYM_LEADER", "74,75,76,95", "Boulder Badge", "#8B4513", basePower = 2, firstBonus = 2, secondBonus = 3, thirdBonus = 4),
-                ChallengerEntity(7, "Misty", "GYM_LEADER", "8,9,55,72,73,80,90", "Cascade Badge", "#4169E1", basePower = 4, firstBonus = 2, secondBonus = 3, thirdBonus = 4),
-                ChallengerEntity(8, "Lt. Surge", "GYM_LEADER", "25,26,81,82,100,125", "Thunder Badge", "#FFD700", basePower = 7, firstBonus = 3, secondBonus = 4, thirdBonus = 5),
-                ChallengerEntity(9, "Erika", "GYM_LEADER", "1,2,3,43,44,45,69,70,71", "Rainbow Badge", "#90EE90", basePower = 8, firstBonus = 3, secondBonus = 4, thirdBonus = 5),
-                ChallengerEntity(10, "Koga", "GYM_LEADER", "33,34,41,42,48,49,73,89", "Soul Badge", "#800080", basePower = 8, firstBonus = 3, secondBonus = 5, thirdBonus = 7),
-                ChallengerEntity(11, "Sabrina", "GYM_LEADER", "63,64,65,79,80,96,97,102", "Marsh Badge", "#FF69B4", basePower = 6, firstBonus = 1, secondBonus = 3, thirdBonus = 5),
-                ChallengerEntity(12, "Blaine", "GYM_LEADER", "58,59,77,78,126", "Volcano Badge", "#FF4500", basePower = 11, firstBonus = 4, secondBonus = 6, thirdBonus = 7),
-                ChallengerEntity(13, "Giovanni", "GYM_LEADER", "50,51,74,75,76,95,112,115", "Earth Badge", "#DAA520", basePower = 12, firstBonus = 6, secondBonus = 7, thirdBonus = 9)
+                ChallengerEntity(4, "Lance", "GYM_LEADER", "149", "Thunder Badge", "#FFD700", basePower = 14, firstBonus = 6, secondBonus = 7, thirdBonus = 8),
+                ChallengerEntity(5, "Gary", "TRAINER", "59", null, null, basePower = 15, firstBonus = 6, secondBonus = 7, thirdBonus = 8),
+                ChallengerEntity(6, "Brock", "GYM_LEADER", "95", "Boulder Badge", "#8B4513", basePower = 2, firstBonus = 2, secondBonus = 3, thirdBonus = 4),
+                ChallengerEntity(7, "Misty", "GYM_LEADER", "121", "Cascade Badge", "#4169E1", basePower = 4, firstBonus = 2, secondBonus = 3, thirdBonus = 4),
+                ChallengerEntity(8, "Lt. Surge", "GYM_LEADER", "26", "Thunder Badge", "#FFD700", basePower = 7, firstBonus = 3, secondBonus = 4, thirdBonus = 5),
+                ChallengerEntity(9, "Erika", "GYM_LEADER", "45", "Rainbow Badge", "#90EE90", basePower = 8, firstBonus = 3, secondBonus = 4, thirdBonus = 5),
+                ChallengerEntity(10, "Koga", "GYM_LEADER", "110", "Soul Badge", "#800080", basePower = 8, firstBonus = 3, secondBonus = 5, thirdBonus = 7),
+                ChallengerEntity(11, "Sabrina", "GYM_LEADER", "65", "Marsh Badge", "#FF69B4", basePower = 6, firstBonus = 1, secondBonus = 3, thirdBonus = 5),
+                ChallengerEntity(12, "Blaine", "GYM_LEADER", "78", "Volcano Badge", "#FF4500", basePower = 11, firstBonus = 4, secondBonus = 6, thirdBonus = 7),
+                ChallengerEntity(13, "Giovanni", "GYM_LEADER", "112", "Earth Badge", "#DAA520", basePower = 12, firstBonus = 6, secondBonus = 7, thirdBonus = 9)
             )
         }
 

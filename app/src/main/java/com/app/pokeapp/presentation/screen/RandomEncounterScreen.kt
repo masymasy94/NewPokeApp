@@ -47,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.app.pokeapp.domain.model.RandomEncounter
 import com.app.pokeapp.presentation.components.AnimatedLightsBackground
 import com.app.pokeapp.presentation.components.BattleArena
+import com.app.pokeapp.presentation.components.EvolutionToggleCard
 import com.app.pokeapp.presentation.components.PokemonPickerSheet
 import com.app.pokeapp.presentation.theme.PokemonColors
 import com.app.pokeapp.presentation.theme.parseMapColor
@@ -106,6 +107,17 @@ fun RandomEncounterScreen(
                         enemyName = uiState.selectedEncounter?.trainerName?.replaceFirstChar { it.uppercase() } ?: "Incontro Casuale",
                         onPlayerImageClick = { showPlayerPicker = true },
                         onEnemyImageClick = { showEnemyPicker = true },
+                        playerBottomContent = uiState.playerPokemon?.let { playerPkm ->
+                            {
+                                EvolutionToggleCard(
+                                    evolutionStage = playerPkm.evolutionStage,
+                                    isFirstEvolution = uiState.isFirstEvolution,
+                                    isSecondEvolution = uiState.isSecondEvolution,
+                                    onToggleFirst = { viewModel.toggleFirstEvolution() },
+                                    onToggleSecond = { viewModel.toggleSecondEvolution() }
+                                )
+                            }
+                        },
                         enemyExtraContent = {
                             Button(
                                 onClick = { showEnemyPicker = true },

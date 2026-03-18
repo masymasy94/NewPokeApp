@@ -29,12 +29,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.foundation.Image
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.app.pokeapp.R
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -46,11 +52,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.BorderStroke
 import com.app.pokeapp.domain.model.Challenger
 import com.app.pokeapp.presentation.components.AnimatedLightsBackground
 import com.app.pokeapp.presentation.components.BattleArena
+import com.app.pokeapp.presentation.components.EvolutionToggleCard
 import com.app.pokeapp.presentation.components.PokemonPickerSheet
 import com.app.pokeapp.presentation.theme.PokemonColors
 import com.app.pokeapp.presentation.theme.parseMapColor
@@ -101,42 +109,30 @@ fun GymBattleScreen(
                     MaterialTheme.colorScheme.primaryContainer
                 )
 
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    colors = CardDefaults.cardColors(containerColor = gymColor.copy(alpha = 0.15f))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            Text(
-                                text = selectedGym.name,
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.ExtraBold
-                            )
-                            selectedGym.badgeName?.let {
-                                Text(
-                                    text = "Badge: $it",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                        Button(
-                            onClick = { showGymPicker = true },
-                            shape = RoundedCornerShape(12.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary
-                            )
-                        ) {
-                            Text("Cambia", fontWeight = FontWeight.Bold)
-                        }
+                    val badgeRes = getBadgeDrawable(selectedGym.badgeName)
+                    if (badgeRes != 0) {
+                        Image(
+                            painter = painterResource(id = badgeRes),
+                            contentDescription = selectedGym.badgeName,
+                            modifier = Modifier.size(36.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                    }
+                    selectedGym.badgeName?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
                     }
                 }
             } else {
@@ -176,21 +172,29 @@ fun GymBattleScreen(
                     playerName = "Giocatore",
                     enemyName = uiState.selectedGym?.name ?: "Capopalestra",
                     onPlayerImageClick = { showPlayerPicker = true },
+                    onEnemyImageClick = { showGymPicker = true },
+                    enemyBottomContent = if (selectedGym != null) {
+                        {
+                            DiceBonusSelector(
+                                gym = selectedGym,
+                                selectedBonus = uiState.selectedDiceBonus,
+                                onBonusSelected = { viewModel.selectDiceBonus(it) }
+                            )
+                        }
+                    } else null,
+                    playerBottomContent = uiState.playerPokemon?.let { playerPkm ->
+                        {
+                            EvolutionToggleCard(
+                                evolutionStage = playerPkm.evolutionStage,
+                                isFirstEvolution = uiState.isFirstEvolution,
+                                isSecondEvolution = uiState.isSecondEvolution,
+                                onToggleFirst = { viewModel.toggleFirstEvolution() },
+                                onToggleSecond = { viewModel.toggleSecondEvolution() }
+                            )
+                        }
+                    },
                     modifier = Modifier.weight(1f)
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                // Dice bonus toggles
-                if (selectedGym != null) {
-                    DiceBonusSelector(
-                        gym = selectedGym,
-                        selectedBonus = uiState.selectedDiceBonus,
-                        onBonusSelected = { viewModel.selectDiceBonus(it) }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
 
             }
         }
@@ -286,50 +290,46 @@ private fun DiceBonusSelector(
     selectedBonus: Int,
     onBonusSelected: (Int) -> Unit
 ) {
-    Card(
+    Row(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        )
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        ) {
-            Text(
-                text = "Tiro di Dado",
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+        listOf(gym.firstBonus, gym.secondBonus, gym.thirdBonus).forEach { bonus ->
+            val isSelected = selectedBonus == bonus
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable { onBonusSelected(bonus) }
             ) {
-                listOf(gym.firstBonus, gym.secondBonus, gym.thirdBonus).forEach { bonus ->
-                    val isSelected = selectedBonus == bonus
-                    Button(
-                        onClick = { onBonusSelected(bonus) },
-                        modifier = Modifier.weight(1f).height(44.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = if (isSelected) PokemonColors.Error else Color.Transparent,
-                            contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
-                        ),
-                        border = if (!isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.outline) else null,
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Text(
-                            text = "+$bonus",
-                            fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                }
+                RadioButton(
+                    selected = isSelected,
+                    onClick = { onBonusSelected(bonus) },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = PokemonColors.Error,
+                        unselectedColor = Color.White.copy(alpha = 0.5f)
+                    )
+                )
+                Text(
+                    text = "+$bonus",
+                    fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Normal,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f)
+                )
             }
         }
+    }
+}
+
+private fun getBadgeDrawable(badgeName: String?): Int {
+    return when (badgeName) {
+        "Boulder Badge" -> R.drawable.boulder_badge
+        "Cascade Badge" -> R.drawable.cascade_badge
+        "Thunder Badge" -> R.drawable.thunder_badge
+        "Rainbow Badge" -> R.drawable.rainbow_badge
+        "Soul Badge" -> R.drawable.soul_badge
+        "Marsh Badge" -> R.drawable.marsh_badge
+        "Volcano Badge" -> R.drawable.volcano_badge
+        "Earth Badge" -> R.drawable.earth_badge
+        else -> 0
     }
 }

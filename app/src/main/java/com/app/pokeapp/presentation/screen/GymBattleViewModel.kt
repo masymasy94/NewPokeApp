@@ -88,7 +88,7 @@ class GymBattleViewModel @Inject constructor(
         val gym = _uiState.value.selectedGym ?: return
         val allPokemon = _uiState.value.allPokemon
 
-        val enemyPokemonId = gym.pokemons.randomOrNull()?.pokemonId
+        val enemyPokemonId = gym.pokemons.firstOrNull()?.pokemonId
         val enemyPokemon = allPokemon.find { it.id == enemyPokemonId }
 
         if (enemyPokemon != null) {

@@ -1,53 +1,80 @@
-# PokeApp - Master Trainer
+<p align="center">
+  <img src="app/src/main/res/drawable/pokeball_vector.xml" width="80" alt="PokeApp Logo"/>
+</p>
 
-[![Build Debug APK](https://github.com/masymasy94/NewPokeApp/actions/workflows/build.yml/badge.svg)](https://github.com/masymasy94/NewPokeApp/actions/workflows/build.yml)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.9-purple?logo=kotlin)
-![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-blue?logo=jetpackcompose)
-![Min SDK](https://img.shields.io/badge/Min%20SDK-24-green)
-![Target SDK](https://img.shields.io/badge/Target%20SDK-34-green)
+<h1 align="center">PokeApp - Master Trainer</h1>
 
-Android companion app for the **Pokemon Master Trainer** board game. Helps players manage battles, look up Pokemon stats, and calculate type effectiveness during gameplay.
+<p align="center">
+  <a href="https://github.com/masymasy94/NewPokeApp/actions/workflows/build.yml"><img src="https://github.com/masymasy94/NewPokeApp/actions/workflows/build.yml/badge.svg" alt="Build"/></a>
+  <img src="https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat" alt="API"/>
+  <img src="https://img.shields.io/badge/Kotlin-1.9-7F52FF.svg?logo=kotlin&logoColor=white" alt="Kotlin"/>
+  <img src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4.svg?logo=jetpackcompose&logoColor=white" alt="Compose"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"/>
+</p>
+
+<p align="center">
+  Android companion app for the <b>Pokemon Master Trainer</b> board game.<br/>
+  Look up Pokemon stats, calculate type effectiveness, and manage battles during gameplay.
+</p>
+
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/main_menu.png" width="180" alt="Main Menu"/>
+  <img src="screenshots/pokedex.png" width="180" alt="Pokedex"/>
+  <img src="screenshots/pokemon_detail.png" width="180" alt="Pokemon Detail"/>
+  <img src="screenshots/battle.png" width="180" alt="Battle"/>
+  <img src="screenshots/gym_battle.png" width="180" alt="Gym Battle"/>
+</p>
 
 ## Features
 
-- **Pokedex** - Browse all 151 Gen 1 Pokemon with stats, types, and Italian names
-- **Trainer Battles (PvP)** - Select Pokemon for player vs player battles with power calculation
-- **Gym Leader Battles** - Challenge 13 gym leaders with type effectiveness
+- **151 Pokemon** - Complete Gen 1 Pokedex with original artwork, stats, types, and Italian names
+- **Trainer Battles** - Player vs Player combat with power calculation and type advantages
+- **Gym Leaders** - Challenge 13 gym leaders, each with their signature Pokemon and badge
 - **Random Encounters** - Simulate wild Pokemon encounters from the board game
-- **Type Effectiveness** - Full type chart with damage multipliers
-- **Evolution System** - Toggle evolution stages with power bonuses
+- **Type Effectiveness** - Full type chart with damage multipliers, strengths, and weaknesses
+- **Evolution System** - Toggle evolution stages with power bonuses (+3 / +2)
+- **Dark Theme** - Pokemon-style dark UI with vibrant type-colored accents
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|-----------|
-| **Language** | Kotlin |
-| **UI** | Jetpack Compose + Material 3 |
-| **Architecture** | MVVM + Repository Pattern |
-| **DI** | Hilt |
-| **Database** | Room |
-| **Async** | Kotlin Coroutines + Flow |
-| **Navigation** | Navigation Compose |
-| **Build** | Gradle (KTS) + KSP |
+- **Kotlin** - 100% Kotlin codebase
+- **Jetpack Compose** - Declarative UI with Material 3
+- **Hilt** - Dependency injection
+- **Room** - Local database for Pokemon, gym leaders, and encounters
+- **Coroutines + Flow** - Reactive async data streams
+- **Navigation Compose** - Single-activity navigation
+- **KSP** - Kotlin Symbol Processing for annotation processing
+- **Gradle KTS** - Type-safe build configuration
 
 ## Architecture
+
+The app follows **MVVM + Repository** pattern with a clean separation of layers:
 
 ```
 app/
 ├── data/
 │   ├── local/          # Room database, DAOs, entities
 │   ├── mapper/         # Entity <-> Domain mappers
-│   └── repository/     # Repository implementations
-├── di/                 # Hilt dependency injection modules
+│   └── repository/     # Repository implementations (with caching)
+├── di/                 # Hilt modules
 ├── domain/
-│   ├── model/          # Domain models, enums, battle calculator
+│   ├── model/          # Domain models, battle calculator, type system
 │   └── repository/     # Repository interfaces
 └── presentation/
-    ├── components/     # Reusable Compose components
-    ├── navigation/     # Navigation graph and routes
-    ├── screen/         # Screens + ViewModels
-    └── theme/          # Colors, typography, shapes
+    ├── components/     # Reusable Compose components (BattleArena, TypeBadge, etc.)
+    ├── navigation/     # Navigation graph and screen routes
+    ├── screen/         # Screens + ViewModels (one per feature)
+    └── theme/          # Colors, typography, shapes, dimensions
 ```
+
+> [!NOTE]
+> Data is loaded once from Room and cached in-memory via Repository + StateFlow, so subsequent screen navigations and picker openings are instant.
+
+## Download
+
+Download the latest debug APK from [GitHub Actions](https://github.com/masymasy94/NewPokeApp/actions) (click the latest successful build, then download the `app-debug` artifact).
 
 ## Getting Started
 
@@ -59,19 +86,18 @@ app/
 
 ### Setup
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/masymasy94/NewPokeApp.git
-   ```
-2. Open in Android Studio
-3. Sync Gradle
-4. Run on emulator or physical device
-
-### Build
-
 ```bash
-./gradlew assembleDebug       # Debug APK
-./gradlew assembleRelease     # Release APK
+git clone https://github.com/masymasy94/NewPokeApp.git
+cd NewPokeApp
+./gradlew assembleDebug
 ```
 
-The debug APK is also built automatically via GitHub Actions on every push to `main` and can be downloaded from the [Actions tab](https://github.com/masymasy94/NewPokeApp/actions).
+Then open in Android Studio and run on an emulator or physical device.
+
+## License
+
+```
+MIT License
+
+Copyright (c) 2024 masymasy94
+```

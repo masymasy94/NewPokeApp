@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="app/src/main/res/drawable/pokeball_vector.xml" width="80" alt="PokeApp Logo"/>
-</p>
-
 <h1 align="center">PokeApp - Master Trainer</h1>
 
 <p align="center">
@@ -23,19 +19,19 @@
   <img src="screenshots/main_menu.png" width="180" alt="Main Menu"/>
   <img src="screenshots/pokedex.png" width="180" alt="Pokedex"/>
   <img src="screenshots/pokemon_detail.png" width="180" alt="Pokemon Detail"/>
-  <img src="screenshots/battle.png" width="180" alt="Battle"/>
   <img src="screenshots/gym_battle.png" width="180" alt="Gym Battle"/>
+  <img src="screenshots/battle.png" width="180" alt="Battle"/>
 </p>
 
 ## Features
 
 - **151 Pokemon** - Complete Gen 1 Pokedex with original artwork, stats, types, and Italian names
-- **Trainer Battles** - Player vs Player combat with power calculation and type advantages
-- **Gym Leaders** - Challenge 13 gym leaders, each with their signature Pokemon and badge
-- **Random Encounters** - Simulate wild Pokemon encounters from the board game
+- **Trainer Battles** - Player vs Player combat with power calculation, type advantages, and evolution toggles
+- **Gym Leaders** - Challenge 13 gym leaders, each with their fixed signature Pokemon, badge image, and dice bonus system
+- **Random Encounters** - Simulate wild Pokemon encounters from the board game with evolution support
 - **Type Effectiveness** - Full type chart with damage multipliers, strengths, and weaknesses
-- **Evolution System** - Toggle evolution stages with power bonuses (+3 / +2)
-- **Dark Theme** - Pokemon-style dark UI with vibrant type-colored accents
+- **Evolution System** - Toggle evolution stages with power bonuses (+3 / +2) on player Pokemon
+- **Dark Theme** - Pokemon-style dark UI with vibrant type-colored accents and custom artwork
 
 ## Tech Stack
 

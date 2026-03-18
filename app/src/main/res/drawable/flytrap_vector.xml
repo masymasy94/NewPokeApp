@@ -1,0 +1,127 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Pot -->
+    <path
+        android:pathData="M38,90 L82,90 L78,112 Q77,114 75,114 L45,114 Q43,114 42,112Z"
+        android:fillColor="#8B4513"/>
+    <!-- Pot rim -->
+    <path
+        android:pathData="M34,86 L86,86 L86,92 Q86,94 84,94 L36,94 Q34,94 34,92Z"
+        android:fillColor="#A0522D"/>
+    <!-- Pot highlight -->
+    <path
+        android:pathData="M40,94 L44,94 L43,110 L41,110Z"
+        android:fillColor="#9B5B2E"
+        android:fillAlpha="0.5"/>
+
+    <!-- Dirt -->
+    <path
+        android:pathData="M38,86 Q60,82 82,86"
+        android:strokeColor="#5D3A1A"
+        android:strokeWidth="3"
+        android:fillColor="#00000000"/>
+
+    <!-- Main stem -->
+    <path
+        android:pathData="M60,86 C58,72 54,62 50,52"
+        android:strokeColor="#2D8B34"
+        android:strokeWidth="4"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+
+    <!-- Left small leaf on stem -->
+    <path
+        android:pathData="M56,74 C48,70 44,74 48,78 C52,76 56,74 56,74Z"
+        android:fillColor="#43A047"/>
+
+    <!-- Right small leaf on stem -->
+    <path
+        android:pathData="M58,66 C66,62 70,66 66,70 C62,68 58,66 58,66Z"
+        android:fillColor="#43A047"/>
+
+    <!-- Trap stem (curves up from main stem) -->
+    <path
+        android:pathData="M50,52 C46,42 42,32 38,24"
+        android:strokeColor="#388E3C"
+        android:strokeWidth="3.5"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+
+    <!-- Second trap stem -->
+    <path
+        android:pathData="M50,52 C54,40 62,30 72,22"
+        android:strokeColor="#388E3C"
+        android:strokeWidth="3"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+
+    <!-- LEFT TRAP (main, bigger) -->
+    <!-- Bottom jaw -->
+    <path
+        android:pathData="M20,28 C24,34 32,36 38,24 C34,28 28,30 20,28Z"
+        android:fillColor="#66BB6A"/>
+    <!-- Top jaw (open) -->
+    <path
+        android:pathData="M20,28 C22,18 30,12 38,24 C32,16 26,16 20,28Z"
+        android:fillColor="#43A047"/>
+    <!-- Teeth on top jaw -->
+    <path
+        android:pathData="M23,24 L25,19 L27,24 L29,18 L31,23 L33,17 L35,23"
+        android:strokeColor="#2E7D32"
+        android:strokeWidth="1.2"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <!-- Teeth on bottom jaw -->
+    <path
+        android:pathData="M23,28 L25,32 L27,28 L29,33 L31,28 L33,33 L35,28"
+        android:strokeColor="#338536"
+        android:strokeWidth="1.2"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <!-- Inside mouth (red) -->
+    <path
+        android:pathData="M24,26 C28,22 32,22 36,26 C32,28 28,28 24,26Z"
+        android:fillColor="#EF5350"/>
+    <!-- Trigger hairs -->
+    <path
+        android:pathData="M28,25 L28,23"
+        android:strokeColor="#C62828"
+        android:strokeWidth="0.8"/>
+    <path
+        android:pathData="M32,25 L32,23"
+        android:strokeColor="#C62828"
+        android:strokeWidth="0.8"/>
+
+    <!-- RIGHT TRAP (smaller) -->
+    <!-- Bottom jaw -->
+    <path
+        android:pathData="M72,22 C76,30 84,30 86,20 C82,24 78,26 72,22Z"
+        android:fillColor="#66BB6A"/>
+    <!-- Top jaw -->
+    <path
+        android:pathData="M72,22 C74,14 80,10 86,20 C82,14 76,14 72,22Z"
+        android:fillColor="#43A047"/>
+    <!-- Teeth top -->
+    <path
+        android:pathData="M75,20 L76,16 L78,20 L80,15 L82,19"
+        android:strokeColor="#2E7D32"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <!-- Teeth bottom -->
+    <path
+        android:pathData="M75,22 L76,26 L78,22 L80,27 L82,23"
+        android:strokeColor="#338536"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <!-- Inside mouth -->
+    <path
+        android:pathData="M76,21 C78,18 80,18 83,21 C80,22 78,22 76,21Z"
+        android:fillColor="#EF5350"/>
+
+</vector>

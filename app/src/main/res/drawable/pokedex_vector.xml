@@ -1,0 +1,126 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Main body - red rounded rectangle -->
+    <path
+        android:pathData="M20,8 L100,8 Q112,8 112,20 L112,100 Q112,112 100,112 L20,112 Q8,112 8,100 L8,20 Q8,8 20,8Z"
+        android:fillColor="#DC2626"/>
+
+    <!-- Body outline -->
+    <path
+        android:pathData="M20,8 L100,8 Q112,8 112,20 L112,100 Q112,112 100,112 L20,112 Q8,112 8,100 L8,20 Q8,8 20,8Z"
+        android:strokeColor="#991B1B"
+        android:strokeWidth="2.5"
+        android:fillColor="#00000000"/>
+
+    <!-- Hinge line (vertical divider) -->
+    <path
+        android:pathData="M42,8 L42,112"
+        android:strokeColor="#B91C1C"
+        android:strokeWidth="2"/>
+
+    <!-- Left panel darker shade -->
+    <path
+        android:pathData="M20,8 L42,8 L42,112 L20,112 Q8,112 8,100 L8,20 Q8,8 20,8Z"
+        android:fillColor="#B91C1C"/>
+
+    <!-- Blue indicator light (top-left) -->
+    <path
+        android:pathData="M25,22 m-8,0 a8,8 0 1,1 16,0 a8,8 0 1,1 -16,0"
+        android:fillColor="#38BDF8"
+        android:strokeColor="#0284C7"
+        android:strokeWidth="1.5"/>
+
+    <!-- Light reflection on indicator -->
+    <path
+        android:pathData="M22,19 m-2.5,0 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0"
+        android:fillColor="#BAE6FD"/>
+
+    <!-- Small lights next to indicator -->
+    <path
+        android:pathData="M25,38 m-3,0 a3,3 0 1,1 6,0 a3,3 0 1,1 -6,0"
+        android:fillColor="#EF4444"/>
+    <path
+        android:pathData="M25,48 m-3,0 a3,3 0 1,1 6,0 a3,3 0 1,1 -6,0"
+        android:fillColor="#FBBF24"/>
+    <path
+        android:pathData="M25,58 m-3,0 a3,3 0 1,1 6,0 a3,3 0 1,1 -6,0"
+        android:fillColor="#34D399"/>
+
+    <!-- Screen bezel (dark frame) -->
+    <path
+        android:pathData="M50,18 L104,18 Q107,18 107,21 L107,65 Q107,68 104,68 L50,68 Q47,68 47,65 L47,21 Q47,18 50,18Z"
+        android:fillColor="#1F2937"/>
+
+    <!-- Screen (light blue/green) -->
+    <path
+        android:pathData="M52,22 L102,22 Q104,22 104,24 L104,62 Q104,64 102,64 L52,64 Q50,64 50,62 L50,24 Q50,22 52,22Z"
+        android:fillColor="#86EFAC"/>
+
+    <!-- Screen content - simple Pokemon silhouette hint -->
+    <path
+        android:pathData="M77,36 m-10,0 a10,10 0 1,1 20,0 a10,10 0 1,1 -20,0"
+        android:fillColor="#22C55E"
+        android:fillAlpha="0.5"/>
+
+    <!-- Screen scan lines (subtle) -->
+    <path
+        android:pathData="M50,32 L104,32"
+        android:strokeColor="#4ADE80"
+        android:strokeWidth="0.3"
+        android:strokeAlpha="0.3"/>
+    <path
+        android:pathData="M50,42 L104,42"
+        android:strokeColor="#4ADE80"
+        android:strokeWidth="0.3"
+        android:strokeAlpha="0.3"/>
+    <path
+        android:pathData="M50,52 L104,52"
+        android:strokeColor="#4ADE80"
+        android:strokeWidth="0.3"
+        android:strokeAlpha="0.3"/>
+
+    <!-- D-pad area -->
+    <!-- Horizontal bar -->
+    <path
+        android:pathData="M62,82 L92,82 L92,90 L62,90Z"
+        android:fillColor="#1F2937"/>
+    <!-- Vertical bar -->
+    <path
+        android:pathData="M72,74 L82,74 L82,98 L72,98Z"
+        android:fillColor="#1F2937"/>
+    <!-- D-pad center -->
+    <path
+        android:pathData="M74,84 L80,84 L80,88 L74,88Z"
+        android:fillColor="#374151"/>
+
+    <!-- Bottom buttons -->
+    <path
+        android:pathData="M52,78 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0"
+        android:fillColor="#EF4444"
+        android:strokeColor="#DC2626"
+        android:strokeWidth="0.5"/>
+    <path
+        android:pathData="M52,96 m-4,0 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0"
+        android:fillColor="#3B82F6"
+        android:strokeColor="#2563EB"
+        android:strokeWidth="0.5"/>
+
+    <!-- Speaker lines (bottom right) -->
+    <path
+        android:pathData="M96,100 L104,100"
+        android:strokeColor="#991B1B"
+        android:strokeWidth="1.5"/>
+    <path
+        android:pathData="M96,104 L104,104"
+        android:strokeColor="#991B1B"
+        android:strokeWidth="1.5"/>
+    <path
+        android:pathData="M96,108 L104,108"
+        android:strokeColor="#991B1B"
+        android:strokeWidth="1.5"/>
+
+</vector>

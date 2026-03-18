@@ -50,6 +50,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import com.app.pokeapp.presentation.components.AnimatedLightsBackground
 import kotlin.math.PI
 import kotlin.math.cos
@@ -59,7 +62,8 @@ import kotlin.math.sin
 private data class MenuItem(
     val title: String,
     val subtitle: String,
-    val emoji: String,
+    val emoji: String = "",
+    val iconRes: Int? = null,
     val gradientColors: List<Color>,
     val onClick: () -> Unit
 )
@@ -76,28 +80,28 @@ fun MainMenuScreen(
             MenuItem(
                 title = "Pokedex",
                 subtitle = "151 Pokemon",
-                emoji = "\uD83D\uDCD6",
+                iconRes = com.app.pokeapp.R.drawable.pokedex_vector,
                 gradientColors = listOf(Color(0xFF43A047), Color(0xFF2E7D32), Color(0xFF1B5E20)),
                 onClick = onNavigateToPokedex
             ),
             MenuItem(
                 title = "Allenatori",
                 subtitle = "Sfida PvP",
-                emoji = "\u2694\uFE0F",
+                iconRes = com.app.pokeapp.R.drawable.trainers_battle,
                 gradientColors = listOf(Color(0xFFFF7043), Color(0xFFE64A19), Color(0xFFBF360C)),
                 onClick = onNavigateToBattle
             ),
             MenuItem(
                 title = "Capopalestra",
                 subtitle = "13 Palestre",
-                emoji = "\uD83C\uDFF0",
+                iconRes = com.app.pokeapp.R.drawable.gym_badges,
                 gradientColors = listOf(Color(0xFFAB47BC), Color(0xFF8E24AA), Color(0xFF6A1B9A)),
                 onClick = onNavigateToGymBattle
             ),
             MenuItem(
-                title = "Casuali",
+                title = "Incontri casuali",
                 subtitle = "Erba alta",
-                emoji = "\uD83C\uDF3F",
+                iconRes = com.app.pokeapp.R.drawable.youngster_joey,
                 gradientColors = listOf(Color(0xFFFDD835), Color(0xFFF9A825), Color(0xFFF57F17)),
                 onClick = onNavigateToRandomEncounter
             )
@@ -206,10 +210,10 @@ fun MainMenuScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 20.dp),
+                    .padding(top = 0.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(0.dp))
 
                 // Title section
                 Text(
@@ -237,7 +241,7 @@ fun MainMenuScreen(
                     color = Color.White.copy(alpha = 0.7f),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 32.dp),
+                        .padding(bottom = 0.dp),
                     textAlign = TextAlign.Center
                 )
 
@@ -246,6 +250,7 @@ fun MainMenuScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
+                        .offset(y = (-40).dp)
                         .scrollable(
                             state = scrollableState,
                             orientation = Orientation.Horizontal,
@@ -254,7 +259,7 @@ fun MainMenuScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     val currentRotation = rotationAngle
-                    val radiusX = 110f
+                    val radiusX = 140f
                     // 30° tilt: vertical radius = radiusX * sin(30°) = radiusX * 0.5
                     val radiusY = radiusX * 0.5f
 
@@ -290,7 +295,7 @@ fun MainMenuScreen(
                     positioned.forEach { pos ->
                         val item = menuItems[pos.index]
                         val depthFraction = (pos.z + 1f) / 2f
-                        val scale = lerp(0.45f, 1f, depthFraction)
+                        val scale = lerp(0.5f, 1f, depthFraction)
                         val alphaVal = lerp(0.3f, 1f, depthFraction)
                         val yOffset = pos.y + floatOffsets[pos.index].value
 
@@ -311,13 +316,14 @@ fun MainMenuScreen(
                                 title = item.title,
                                 subtitle = item.subtitle,
                                 emoji = item.emoji,
+                                iconRes = item.iconRes,
                                 onClick = item.onClick
                             )
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(0.dp))
             }
         }
     }
@@ -327,12 +333,13 @@ fun MainMenuScreen(
 private fun MenuCircle(
     title: String,
     subtitle: String,
-    emoji: String,
+    emoji: String = "",
+    iconRes: Int? = null,
     onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
-            .size(160.dp)
+            .size(260.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
@@ -344,14 +351,23 @@ private fun MenuCircle(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = emoji,
-                fontSize = 56.sp
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+            if (iconRes != null) {
+                Image(
+                    painter = painterResource(id = iconRes),
+                    contentDescription = title,
+                    modifier = Modifier.size(150.dp),
+                    contentScale = ContentScale.Fit
+                )
+            } else {
+                Text(
+                    text = emoji,
+                    fontSize = 72.sp
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.White,
                 textAlign = TextAlign.Center,
@@ -360,7 +376,7 @@ private fun MenuCircle(
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium,
                 color = Color.White.copy(alpha = 0.7f),
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center

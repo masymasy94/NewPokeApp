@@ -1,0 +1,47 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Top red half -->
+    <path
+        android:pathData="M60,10 A50,50 0 0,1 110,60 L75,60 A15,15 0 0,0 45,60 L10,60 A50,50 0 0,1 60,10Z"
+        android:fillColor="#EE1515"/>
+
+    <!-- Bottom white half -->
+    <path
+        android:pathData="M10,60 L45,60 A15,15 0 0,0 75,60 L110,60 A50,50 0 0,1 10,60Z"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Center band / divider line -->
+    <path
+        android:pathData="M10,56 L45,56 A15,15 0 0,0 45,64 L10,64 A50,50 0 0,1 10,56Z"
+        android:fillColor="#222222"
+        android:fillAlpha="0"/>
+    <path
+        android:pathData="M10,57 L110,57 L110,63 L10,63Z"
+        android:fillColor="#222222"/>
+
+    <!-- Outer circle stroke -->
+    <path
+        android:pathData="M60,10 A50,50 0 1,1 59.99,10"
+        android:strokeColor="#222222"
+        android:strokeWidth="3.5"
+        android:fillColor="#00000000"/>
+
+    <!-- Center button - outer ring -->
+    <path
+        android:pathData="M60,60 m-15,0 a15,15 0 1,1 30,0 a15,15 0 1,1 -30,0"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#222222"
+        android:strokeWidth="3.5"/>
+
+    <!-- Center button - inner circle -->
+    <path
+        android:pathData="M60,60 m-7,0 a7,7 0 1,1 14,0 a7,7 0 1,1 -14,0"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#222222"
+        android:strokeWidth="2.5"/>
+
+</vector>

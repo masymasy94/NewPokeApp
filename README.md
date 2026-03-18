@@ -70,7 +70,7 @@ app/
 
 ## Download
 
-Download the latest debug APK from [GitHub Actions](https://github.com/masymasy94/NewPokeApp/actions) (click the latest successful build, then download the `app-debug` artifact).
+Download the latest debug APK from the [Latest Release](https://github.com/masymasy94/NewPokeApp/releases/tag/latest) page. The APK is automatically built and published on every push to `main`.
 
 ## Getting Started
 

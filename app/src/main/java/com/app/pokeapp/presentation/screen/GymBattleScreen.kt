@@ -101,14 +101,9 @@ fun GymBattleScreen(
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
+                    val selectedGym = uiState.selectedGym
                 // Gym info card
-                val selectedGym = uiState.selectedGym
                 if (selectedGym != null) {
-                val gymColor = parseMapColor(
-                    selectedGym.mapColor,
-                    MaterialTheme.colorScheme.primaryContainer
-                )
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -135,26 +130,8 @@ fun GymBattleScreen(
                         )
                     }
                 }
-            } else {
-                Button(
-                    onClick = { showGymPicker = true },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(
-                        text = "Scegli Capopalestra",
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
+                Spacer(modifier = Modifier.height(16.dp))
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             if (uiState.isLoading) {
                 Box(
@@ -173,6 +150,25 @@ fun GymBattleScreen(
                     enemyName = uiState.selectedGym?.name ?: "Capopalestra",
                     onPlayerImageClick = { showPlayerPicker = true },
                     onEnemyImageClick = { showGymPicker = true },
+                    enemyExtraContent = {
+                        Button(
+                            onClick = { showGymPicker = true },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                                .padding(horizontal = 16.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary
+                            )
+                        ) {
+                            Text(
+                                text = "Scegli Capopalestra",
+                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
+                    },
                     enemyBottomContent = if (selectedGym != null) {
                         {
                             DiceBonusSelector(

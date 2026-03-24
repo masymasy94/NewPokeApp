@@ -25,7 +25,7 @@
 
 ## Features
 
-- **151 Pokemon** - Complete Gen 1 Pokedex with original artwork, stats, types, and Italian names
+- **150 Pokemon** - Gen 1 Pokedex (Bulbasaur through Mewtwo) with original artwork, stats, types, and Italian names
 - **Trainer Battles** - Player vs Player combat with power calculation, type advantages, and evolution toggles
 - **Gym Leaders** - Challenge 13 gym leaders, each with their fixed signature Pokemon, badge image, and dice bonus system
 - **Random Encounters** - Simulate wild Pokemon encounters from the board game with evolution support

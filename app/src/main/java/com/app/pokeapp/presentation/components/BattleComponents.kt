@@ -144,13 +144,25 @@ fun BattleArena(
                 Spacer(modifier = Modifier.width(12.dp))
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
+                        .shadow(
+                            elevation = 8.dp,
+                            shape = CircleShape,
+                            spotColor = PokemonColors.Primary.copy(alpha = 0.5f)
+                        )
+                        .size(48.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.9f))
+                        .background(
+                            Brush.linearGradient(
+                                colors = listOf(
+                                    PokemonColors.Primary,
+                                    PokemonColors.PrimaryVariant
+                                )
+                            )
+                        )
                         .clickable { onScanClick() },
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "\uD83D\uDCF7", fontSize = 16.sp)
+                    Text(text = "\uD83D\uDCF7", fontSize = 18.sp)
                 }
             }
         }

@@ -55,6 +55,7 @@ fun BattleArena(
     enemyName: String = "Avversario",
     onPlayerImageClick: (() -> Unit)? = null,
     onEnemyImageClick: (() -> Unit)? = null,
+    onScanClick: (() -> Unit)? = null,
     enemyExtraContent: @Composable (() -> Unit)? = null,
     enemyBottomContent: @Composable (() -> Unit)? = null,
     playerBottomContent: @Composable (() -> Unit)? = null,
@@ -106,34 +107,52 @@ fun BattleArena(
             }
         }
 
-        // VS badge
-        Box(
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .shadow(
-                    elevation = 8.dp,
-                    shape = CircleShape,
-                    spotColor = PokemonColors.Primary.copy(alpha = 0.5f)
-                )
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(
-                    Brush.linearGradient(
-                        colors = listOf(
-                            PokemonColors.Primary,
-                            PokemonColors.PrimaryVariant
-                        )
-                    )
-                ),
-            contentAlignment = Alignment.Center
+        // VS badge + scan button
+        Row(
+            modifier = Modifier.padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "VS",
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.White,
-                fontSize = 14.sp
-            )
+            Box(
+                modifier = Modifier
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = CircleShape,
+                        spotColor = PokemonColors.Primary.copy(alpha = 0.5f)
+                    )
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(
+                        Brush.linearGradient(
+                            colors = listOf(
+                                PokemonColors.Primary,
+                                PokemonColors.PrimaryVariant
+                            )
+                        )
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "VS",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.White,
+                    fontSize = 14.sp
+                )
+            }
+            if (onScanClick != null) {
+                Spacer(modifier = Modifier.width(12.dp))
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.9f))
+                        .clickable { onScanClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "\uD83D\uDCF7", fontSize = 16.sp)
+                }
+            }
         }
 
         // Player half

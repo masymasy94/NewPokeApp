@@ -97,6 +97,7 @@ fun BattleScreen(
                         enemyName = "Allenatore",
                         onPlayerImageClick = { showPlayerPicker = true },
                         onEnemyImageClick = { showEnemyPicker = true },
+                        onScanClick = { showScanner = true },
                         enemyBottomContent = uiState.enemyPokemon?.let { enemyPkm ->
                             {
                                 EvolutionToggleCard(
@@ -122,23 +123,6 @@ fun BattleScreen(
                         modifier = Modifier.weight(1f)
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Button(
-                        onClick = { showScanner = true },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.tertiary
-                        ),
-                        shape = RoundedCornerShape(14.dp)
-                    ) {
-                        Text(
-                            text = "\uD83D\uDCF7 Scansiona Gettoni",
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
                 }
             }
 

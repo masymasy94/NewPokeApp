@@ -153,6 +153,7 @@ fun GymBattleScreen(
                     enemyName = uiState.selectedGym?.name ?: "Capopalestra",
                     onPlayerImageClick = { showPlayerPicker = true },
                     onEnemyImageClick = { showGymPicker = true },
+                    onScanClick = { showScanner = true },
                     enemyExtraContent = {
                         Button(
                             onClick = { showGymPicker = true },
@@ -195,23 +196,6 @@ fun GymBattleScreen(
                     modifier = Modifier.weight(1f)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Button(
-                    onClick = { showScanner = true },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiary
-                    ),
-                    shape = RoundedCornerShape(14.dp)
-                ) {
-                    Text(
-                        text = "\uD83D\uDCF7 Scansiona Gettone",
-                        fontWeight = FontWeight.Bold
-                    )
-                }
             }
         }
 

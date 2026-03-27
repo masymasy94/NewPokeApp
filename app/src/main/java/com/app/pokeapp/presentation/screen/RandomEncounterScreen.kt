@@ -110,6 +110,7 @@ fun RandomEncounterScreen(
                         enemyName = uiState.selectedEncounter?.trainerName?.replaceFirstChar { it.uppercase() } ?: "Incontro Casuale",
                         onPlayerImageClick = { showPlayerPicker = true },
                         onEnemyImageClick = { showEnemyPicker = true },
+                        onScanClick = { showScanner = true },
                         playerBottomContent = uiState.playerPokemon?.let { playerPkm ->
                             {
                                 EvolutionToggleCard(
@@ -157,24 +158,6 @@ fun RandomEncounterScreen(
                     ) {
                         Text(
                             text = "\uD83C\uDFB2 Casuale",
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Button(
-                        onClick = { showScanner = true },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.tertiary
-                        ),
-                        shape = RoundedCornerShape(14.dp)
-                    ) {
-                        Text(
-                            text = "\uD83D\uDCF7 Scansiona Gettone",
                             fontWeight = FontWeight.Bold
                         )
                     }

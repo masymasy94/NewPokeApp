@@ -83,31 +83,6 @@ fun RandomEncounterScreen(
                             )
                         }
                     },
-                    actions = {
-                        Box(
-                            modifier = Modifier
-                                .padding(end = 12.dp)
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(
-                                    Brush.linearGradient(
-                                        colors = listOf(
-                                            PokemonColors.Primary,
-                                            PokemonColors.PrimaryVariant
-                                        )
-                                    )
-                                )
-                                .clickable { viewModel.startEncounter() },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "?",
-                                color = Color.White,
-                                fontWeight = FontWeight.ExtraBold,
-                                fontSize = 18.sp
-                            )
-                        }
-                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent,
                         titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -152,24 +127,40 @@ fun RandomEncounterScreen(
                             }
                         },
                         enemyExtraContent = {
-                            Button(
-                                onClick = { showEnemyPicker = true },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(56.dp)
-                                    .padding(horizontal = 16.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                )
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Text(
-                                    text = "Seleziona Incontro Casuale",
-                                    fontWeight = FontWeight.Bold,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
+                                Button(
+                                    onClick = { showEnemyPicker = true },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(56.dp)
+                                        .padding(horizontal = 16.dp),
+                                    shape = RoundedCornerShape(16.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = MaterialTheme.colorScheme.primary
+                                    )
+                                ) {
+                                    Text(
+                                        text = "Seleziona Incontro Casuale",
+                                        fontWeight = FontWeight.Bold,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(12.dp))
+                                RandomEncounterButton(onClick = { viewModel.startEncounter() })
                             }
                         },
+                        enemyBottomContent = if (uiState.selectedEncounter != null) {
+                            {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    RandomEncounterButton(onClick = { viewModel.startEncounter() })
+                                }
+                            }
+                        } else null,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -288,5 +279,31 @@ private fun EncounterPickerSheet(
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             }
         }
+    }
+}
+
+@Composable
+private fun RandomEncounterButton(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .size(36.dp)
+            .clip(CircleShape)
+            .background(
+                Brush.linearGradient(
+                    colors = listOf(
+                        PokemonColors.Primary,
+                        PokemonColors.PrimaryVariant
+                    )
+                )
+            )
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "?",
+            color = Color.White,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 18.sp
+        )
     }
 }

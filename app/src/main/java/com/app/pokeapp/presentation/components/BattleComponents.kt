@@ -298,7 +298,14 @@ private fun PokemonBattleSlot(
                         modifier = Modifier
                             .size(36.dp)
                             .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.surface)
+                            .background(
+                                Brush.linearGradient(
+                                    colors = listOf(
+                                        PokemonColors.Primary,
+                                        PokemonColors.PrimaryVariant
+                                    )
+                                )
+                            )
                             .clickable { onImageClick() },
                         contentAlignment = Alignment.Center
                     ) {

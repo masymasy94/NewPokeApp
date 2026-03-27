@@ -162,7 +162,35 @@ fun BattleArena(
                         .clickable { onScanClick() },
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "\uD83D\uDCF7", fontSize = 18.sp)
+                    Canvas(modifier = Modifier.size(22.dp)) {
+                        val w = size.width
+                        val h = size.height
+                        val color = Color.White
+                        val stroke = 2.dp.toPx()
+                        // Camera body
+                        drawRoundRect(
+                            color = color,
+                            topLeft = Offset(0f, h * 0.25f),
+                            size = androidx.compose.ui.geometry.Size(w, h * 0.65f),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(3.dp.toPx()),
+                            style = Stroke(stroke)
+                        )
+                        // Lens circle
+                        drawCircle(
+                            color = color,
+                            radius = w * 0.18f,
+                            center = Offset(w * 0.5f, h * 0.58f),
+                            style = Stroke(stroke)
+                        )
+                        // Top bump (flash/viewfinder)
+                        drawRoundRect(
+                            color = color,
+                            topLeft = Offset(w * 0.3f, h * 0.1f),
+                            size = androidx.compose.ui.geometry.Size(w * 0.4f, h * 0.2f),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(2.dp.toPx()),
+                            style = Stroke(stroke)
+                        )
+                    }
                 }
             }
         }

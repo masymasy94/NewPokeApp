@@ -6,7 +6,6 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,16 +37,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,7 +54,6 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.delay
-import kotlin.math.min
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -235,9 +228,6 @@ private fun CameraScannerContent(
             }
         }
 
-        // Viewfinder overlay
-        ScannerOverlay(scanMode = scanMode, isConfirmed = uiState.isConfirmed)
-
         // Instruction text
         val instructionText = when {
             uiState.isConfirmed -> "Pok\u00e9mon trovato!"
@@ -335,104 +325,3 @@ private fun CameraScannerContent(
     }
 }
 
-@Composable
-private fun ScannerOverlay(scanMode: ScanMode, isConfirmed: Boolean) {
-    val accentColor = if (isConfirmed) PokemonColors.Success else Color.White
-
-    Canvas(modifier = Modifier.fillMaxSize()) {
-        val strokeWidth = 3.dp.toPx()
-        val cornerRadius = CornerRadius(16.dp.toPx())
-
-        when (scanMode) {
-            is ScanMode.SingleToken -> {
-                val viewfinderSize = min(size.width, size.height) * 0.6f
-                val left = (size.width - viewfinderSize) / 2
-                val top = (size.height - viewfinderSize) / 2 - 40.dp.toPx()
-
-                drawRoundRect(
-                    color = accentColor,
-                    topLeft = Offset(left, top),
-                    size = Size(viewfinderSize, viewfinderSize),
-                    cornerRadius = cornerRadius,
-                    style = Stroke(strokeWidth)
-                )
-
-                val accentLength = viewfinderSize * 0.12f
-                val accentWidth = 5.dp.toPx()
-                drawCornerAccents(left, top, viewfinderSize, viewfinderSize, accentLength, accentWidth, accentColor)
-            }
-            is ScanMode.DualToken -> {
-                val regionSize = min(size.width, size.height) * 0.38f
-                val spacing = 16.dp.toPx()
-                val totalWidth = regionSize * 2 + spacing
-                val startX = (size.width - totalWidth) / 2
-                val y = (size.height - regionSize) / 2 - 40.dp.toPx()
-
-                val leftColor = if (isConfirmed) PokemonColors.Success else PokemonColors.Success
-                val rightColor = if (isConfirmed) PokemonColors.Success else PokemonColors.Error
-
-                drawRoundRect(
-                    color = leftColor,
-                    topLeft = Offset(startX, y),
-                    size = Size(regionSize, regionSize),
-                    cornerRadius = cornerRadius,
-                    style = Stroke(strokeWidth)
-                )
-                drawCornerAccents(startX, y, regionSize, regionSize, regionSize * 0.12f, 5.dp.toPx(), leftColor)
-
-                drawRoundRect(
-                    color = rightColor,
-                    topLeft = Offset(startX + regionSize + spacing, y),
-                    size = Size(regionSize, regionSize),
-                    cornerRadius = cornerRadius,
-                    style = Stroke(strokeWidth)
-                )
-                drawCornerAccents(startX + regionSize + spacing, y, regionSize, regionSize, regionSize * 0.12f, 5.dp.toPx(), rightColor)
-            }
-        }
-    }
-
-    if (scanMode is ScanMode.DualToken) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 120.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(
-                    text = "Giocatore",
-                    color = PokemonColors.Success,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.labelLarge
-                )
-                Text(
-                    text = "Avversario",
-                    color = PokemonColors.Error,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.labelLarge
-                )
-            }
-        }
-    }
-}
-
-private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawCornerAccents(
-    left: Float,
-    top: Float,
-    width: Float,
-    height: Float,
-    accentLength: Float,
-    accentWidth: Float,
-    color: Color
-) {
-    val cap = androidx.compose.ui.graphics.StrokeCap.Round
-    drawLine(color, Offset(left, top + accentLength), Offset(left, top), accentWidth, cap = cap)
-    drawLine(color, Offset(left, top), Offset(left + accentLength, top), accentWidth, cap = cap)
-    drawLine(color, Offset(left + width, top), Offset(left + width - accentLength, top), accentWidth, cap = cap)
-    drawLine(color, Offset(left + width, top), Offset(left + width, top + accentLength), accentWidth, cap = cap)
-    drawLine(color, Offset(left, top + height), Offset(left + accentLength, top + height), accentWidth, cap = cap)
-    drawLine(color, Offset(left, top + height), Offset(left, top + height - accentLength), accentWidth, cap = cap)
-    drawLine(color, Offset(left + width, top + height), Offset(left + width - accentLength, top + height), accentWidth, cap = cap)
-    drawLine(color, Offset(left + width, top + height), Offset(left + width, top + height - accentLength), accentWidth, cap = cap)
-}

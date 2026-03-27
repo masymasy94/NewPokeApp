@@ -56,10 +56,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.BorderStroke
 import com.app.pokeapp.domain.model.Challenger
+import com.app.pokeapp.domain.model.ScanMode
 import com.app.pokeapp.presentation.components.AnimatedLightsBackground
 import com.app.pokeapp.presentation.components.BattleArena
 import com.app.pokeapp.presentation.components.EvolutionToggleCard
 import com.app.pokeapp.presentation.components.PokemonPickerSheet
+import com.app.pokeapp.presentation.screen.scanner.TokenScannerScreen
 import com.app.pokeapp.presentation.theme.PokemonColors
 import com.app.pokeapp.presentation.theme.parseMapColor
 
@@ -72,6 +74,7 @@ fun GymBattleScreen(
     val uiState by viewModel.uiState.collectAsState()
     var showPlayerPicker by remember { mutableStateOf(false) }
     var showGymPicker by remember { mutableStateOf(false) }
+    var showScanner by remember { mutableStateOf(false) }
 
     AnimatedLightsBackground {
         Scaffold(
@@ -192,6 +195,23 @@ fun GymBattleScreen(
                     modifier = Modifier.weight(1f)
                 )
 
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = { showScanner = true },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiary
+                    ),
+                    shape = RoundedCornerShape(14.dp)
+                ) {
+                    Text(
+                        text = "\uD83D\uDCF7 Scansiona Gettone",
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
 
@@ -214,6 +234,19 @@ fun GymBattleScreen(
                     showGymPicker = false
                 },
                 onDismiss = { showGymPicker = false }
+            )
+        }
+
+        if (showScanner) {
+            TokenScannerScreen(
+                scanMode = ScanMode.SingleToken,
+                onResult = { scannedPokemon ->
+                    if (scannedPokemon.isNotEmpty()) {
+                        viewModel.selectPlayerPokemon(scannedPokemon[0])
+                    }
+                    showScanner = false
+                },
+                onDismiss = { showScanner = false }
             )
         }
     }

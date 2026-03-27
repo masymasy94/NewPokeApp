@@ -33,10 +33,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.app.pokeapp.domain.model.ScanMode
 import com.app.pokeapp.presentation.components.AnimatedLightsBackground
 import com.app.pokeapp.presentation.components.BattleArena
 import com.app.pokeapp.presentation.components.EvolutionToggleCard
 import com.app.pokeapp.presentation.components.PokemonPickerSheet
+import com.app.pokeapp.presentation.screen.scanner.TokenScannerScreen
 import com.app.pokeapp.presentation.theme.PokemonColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +50,7 @@ fun BattleScreen(
     val uiState by viewModel.uiState.collectAsState()
     var showPlayerPicker by remember { mutableStateOf(false) }
     var showEnemyPicker by remember { mutableStateOf(false) }
+    var showScanner by remember { mutableStateOf(false) }
 
     AnimatedLightsBackground {
         Scaffold(
@@ -119,6 +122,23 @@ fun BattleScreen(
                         modifier = Modifier.weight(1f)
                     )
 
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(
+                        onClick = { showScanner = true },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiary
+                        ),
+                        shape = RoundedCornerShape(14.dp)
+                    ) {
+                        Text(
+                            text = "\uD83D\uDCF7 Scansiona Gettoni",
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
 
@@ -141,6 +161,22 @@ fun BattleScreen(
                         showEnemyPicker = false
                     },
                     onDismiss = { showEnemyPicker = false }
+                )
+            }
+
+            if (showScanner) {
+                TokenScannerScreen(
+                    scanMode = ScanMode.DualToken,
+                    onResult = { scannedPokemon ->
+                        if (scannedPokemon.isNotEmpty()) {
+                            viewModel.selectPlayerPokemon(scannedPokemon[0])
+                        }
+                        if (scannedPokemon.size >= 2) {
+                            viewModel.selectEnemyPokemon(scannedPokemon[1])
+                        }
+                        showScanner = false
+                    },
+                    onDismiss = { showScanner = false }
                 )
             }
         }

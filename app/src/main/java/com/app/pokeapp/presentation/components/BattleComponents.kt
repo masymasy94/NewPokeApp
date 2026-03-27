@@ -56,6 +56,7 @@ fun BattleArena(
     onPlayerImageClick: (() -> Unit)? = null,
     onEnemyImageClick: (() -> Unit)? = null,
     onScanClick: (() -> Unit)? = null,
+    onEnemyExtraAction: (() -> Unit)? = null,
     enemyExtraContent: @Composable (() -> Unit)? = null,
     enemyBottomContent: @Composable (() -> Unit)? = null,
     playerBottomContent: @Composable (() -> Unit)? = null,
@@ -96,6 +97,7 @@ fun BattleArena(
                             name = enemyName,
                             isPlayer = false,
                             onImageClick = onEnemyImageClick,
+                            onExtraAction = onEnemyExtraAction,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -247,6 +249,7 @@ private fun PokemonBattleSlot(
     name: String,
     isPlayer: Boolean,
     onImageClick: (() -> Unit)? = null,
+    onExtraAction: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -293,35 +296,59 @@ private fun PokemonBattleSlot(
                         )
                     }
                 }
-                if (onImageClick != null) {
-                    Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(CircleShape)
-                            .background(
-                                Brush.linearGradient(
-                                    colors = listOf(
-                                        PokemonColors.Primary,
-                                        PokemonColors.PrimaryVariant
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    if (onExtraAction != null) {
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    Brush.linearGradient(
+                                        colors = listOf(
+                                            PokemonColors.Primary,
+                                            PokemonColors.PrimaryVariant
+                                        )
                                     )
                                 )
+                                .clickable { onExtraAction() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "?",
+                                color = Color.White,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 18.sp
                             )
-                            .clickable { onImageClick() },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Canvas(modifier = Modifier.size(18.dp)) {
-                            val stroke = 2.dp.toPx()
-                            val color = Color.White
-                            val w = size.width
-                            val h = size.height
-                            // Top arrow (right)
-                            drawLine(color, Offset(w * 0.15f, h * 0.3f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-                            drawLine(color, Offset(w * 0.65f, h * 0.1f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-                            drawLine(color, Offset(w * 0.65f, h * 0.5f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-                            // Bottom arrow (left)
-                            drawLine(color, Offset(w * 0.85f, h * 0.7f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-                            drawLine(color, Offset(w * 0.35f, h * 0.5f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-                            drawLine(color, Offset(w * 0.35f, h * 0.9f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                        }
+                    }
+                    if (onImageClick != null) {
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    Brush.linearGradient(
+                                        colors = listOf(
+                                            PokemonColors.Primary,
+                                            PokemonColors.PrimaryVariant
+                                        )
+                                    )
+                                )
+                                .clickable { onImageClick() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Canvas(modifier = Modifier.size(18.dp)) {
+                                val stroke = 2.dp.toPx()
+                                val color = Color.White
+                                val w = size.width
+                                val h = size.height
+                                drawLine(color, Offset(w * 0.15f, h * 0.3f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                                drawLine(color, Offset(w * 0.65f, h * 0.1f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                                drawLine(color, Offset(w * 0.65f, h * 0.5f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                                drawLine(color, Offset(w * 0.85f, h * 0.7f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                                drawLine(color, Offset(w * 0.35f, h * 0.5f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                                drawLine(color, Offset(w * 0.35f, h * 0.9f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                            }
                         }
                     }
                 }

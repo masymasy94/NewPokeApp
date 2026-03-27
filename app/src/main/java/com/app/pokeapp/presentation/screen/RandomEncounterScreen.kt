@@ -151,15 +151,8 @@ fun RandomEncounterScreen(
                                 RandomEncounterButton(onClick = { viewModel.startEncounter() })
                             }
                         },
-                        enemyBottomContent = if (uiState.selectedEncounter != null) {
-                            {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    RandomEncounterButton(onClick = { viewModel.startEncounter() })
-                                }
-                            }
+                        onEnemyExtraAction = if (uiState.selectedEncounter != null) {
+                            { viewModel.startEncounter() }
                         } else null,
                         modifier = Modifier.weight(1f)
                     )

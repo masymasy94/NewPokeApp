@@ -309,7 +309,20 @@ private fun PokemonBattleSlot(
                             .clickable { onImageClick() },
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "\uD83D\uDD04", fontSize = 16.sp)
+                        Canvas(modifier = Modifier.size(18.dp)) {
+                            val stroke = 2.dp.toPx()
+                            val color = Color.White
+                            val w = size.width
+                            val h = size.height
+                            // Top arrow (right)
+                            drawLine(color, Offset(w * 0.15f, h * 0.3f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                            drawLine(color, Offset(w * 0.65f, h * 0.1f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                            drawLine(color, Offset(w * 0.65f, h * 0.5f), Offset(w * 0.85f, h * 0.3f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                            // Bottom arrow (left)
+                            drawLine(color, Offset(w * 0.85f, h * 0.7f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                            drawLine(color, Offset(w * 0.35f, h * 0.5f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                            drawLine(color, Offset(w * 0.35f, h * 0.9f), Offset(w * 0.15f, h * 0.7f), stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                        }
                     }
                 }
             }

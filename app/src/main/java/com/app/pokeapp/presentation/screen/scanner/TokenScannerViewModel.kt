@@ -1,119 +1,160 @@
 package com.app.pokeapp.presentation.screen.scanner
 
-import android.graphics.Bitmap
-import android.graphics.Matrix
+import android.media.Image
+import androidx.annotation.OptIn
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageProxy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.pokeapp.data.scanner.PokemonMatcher
+import com.app.pokeapp.data.scanner.PokemonTextMatcher
 import com.app.pokeapp.domain.model.Pokemon
 import com.app.pokeapp.domain.model.ScanMode
 import com.app.pokeapp.domain.repository.PokemonRepository
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
-import kotlin.math.min
 
 data class TokenScannerUiState(
     val isInitializing: Boolean = true,
-    val isProcessing: Boolean = false,
-    val results: List<Pair<Pokemon, Float>> = emptyList(),
-    val error: String? = null
+    val detectedPokemon: List<Pokemon> = emptyList(),
+    val isConfirmed: Boolean = false
 )
 
 @HiltViewModel
 class TokenScannerViewModel @Inject constructor(
-    private val pokemonMatcher: PokemonMatcher,
+    private val pokemonTextMatcher: PokemonTextMatcher,
     private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TokenScannerUiState())
     val uiState: StateFlow<TokenScannerUiState> = _uiState.asStateFlow()
 
-    private var allPokemon: List<Pokemon> = emptyList()
+    private val textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+    private val isProcessing = AtomicBoolean(false)
+
+    // Stability tracking: confirm after same result N times in a row
+    private var stableCount = 0
+    private var lastDetectedIds: List<Int> = emptyList()
+    private var scanMode: ScanMode = ScanMode.SingleToken
+
+    companion object {
+        private const val STABLE_FRAMES_REQUIRED = 4
+    }
 
     init {
         viewModelScope.launch {
-            allPokemon = pokemonRepository.getAllPokemon().first()
-            pokemonMatcher.initialize(allPokemon)
+            val allPokemon = pokemonRepository.getAllPokemon().first()
+            pokemonTextMatcher.initialize(allPokemon)
             _uiState.update { it.copy(isInitializing = false) }
         }
     }
 
-    fun processCapture(bitmap: Bitmap, rotationDegrees: Int, scanMode: ScanMode) {
-        viewModelScope.launch(Dispatchers.Default) {
-            _uiState.update { it.copy(isProcessing = true, error = null) }
+    fun setScanMode(mode: ScanMode) {
+        scanMode = mode
+    }
 
-            val rotated = rotateBitmap(bitmap, rotationDegrees)
-            val width = rotated.width
-            val height = rotated.height
+    @OptIn(ExperimentalGetImage::class)
+    fun processFrame(imageProxy: ImageProxy) {
+        if (_uiState.value.isConfirmed) {
+            imageProxy.close()
+            return
+        }
 
-            val results = when (scanMode) {
-                is ScanMode.SingleToken -> {
-                    val cropSize = (min(width, height) * 0.6f).toInt()
-                    val x = (width - cropSize) / 2
-                    val y = (height - cropSize) / 2
-                    val crop = Bitmap.createBitmap(rotated, x, y, cropSize, cropSize)
-                    val result = pokemonMatcher.findMatch(crop)
-                    crop.recycle()
-                    listOfNotNull(result?.let { r ->
-                        allPokemon.find { it.id == r.pokemonId }?.let { it to r.confidence }
-                    })
-                }
-                is ScanMode.DualToken -> {
-                    val cropSize = (min(width, height) * 0.38f).toInt()
-                    val y = (height - cropSize) / 2
-                    val leftX = (width * 0.05f).toInt()
-                    val rightX = (width * 0.55f).toInt()
+        if (!pokemonTextMatcher.isInitialized || !isProcessing.compareAndSet(false, true)) {
+            imageProxy.close()
+            return
+        }
 
-                    val safeLeftX = leftX.coerceIn(0, width - cropSize)
-                    val safeRightX = rightX.coerceIn(0, width - cropSize)
-                    val safeY = y.coerceIn(0, height - cropSize)
+        val mediaImage: Image? = imageProxy.image
+        if (mediaImage == null) {
+            isProcessing.set(false)
+            imageProxy.close()
+            return
+        }
 
-                    val leftCrop = Bitmap.createBitmap(rotated, safeLeftX, safeY, cropSize, cropSize)
-                    val rightCrop = Bitmap.createBitmap(rotated, safeRightX, safeY, cropSize, cropSize)
+        val inputImage = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
 
-                    val leftResult = pokemonMatcher.findMatch(leftCrop)
-                    val rightResult = pokemonMatcher.findMatch(rightCrop)
-                    leftCrop.recycle()
-                    rightCrop.recycle()
+        textRecognizer.process(inputImage)
+            .addOnSuccessListener { visionText ->
+                handleDetectedText(visionText)
+            }
+            .addOnCompleteListener {
+                isProcessing.set(false)
+                imageProxy.close()
+            }
+    }
 
-                    val matches = mutableListOf<Pair<Pokemon, Float>>()
-                    leftResult?.let { r ->
-                        allPokemon.find { it.id == r.pokemonId }?.let { matches.add(it to r.confidence) }
+    private fun handleDetectedText(visionText: Text) {
+        val matches = mutableListOf<Pair<Pokemon, Float>>() // pokemon + x-position
+
+        for (block in visionText.textBlocks) {
+            for (line in block.lines) {
+                val text = line.text
+                val pokemon = pokemonTextMatcher.matchText(text)
+                if (pokemon != null) {
+                    val centerX = line.boundingBox?.centerX()?.toFloat() ?: 0f
+                    // Avoid duplicates
+                    if (matches.none { it.first.id == pokemon.id }) {
+                        matches.add(pokemon to centerX)
                     }
-                    rightResult?.let { r ->
-                        allPokemon.find { it.id == r.pokemonId }?.let { matches.add(it to r.confidence) }
-                    }
-                    matches
                 }
             }
+        }
 
-            if (rotated != bitmap) rotated.recycle()
+        if (matches.isEmpty()) {
+            stableCount = 0
+            lastDetectedIds = emptyList()
+            _uiState.update { it.copy(detectedPokemon = emptyList()) }
+            return
+        }
 
-            _uiState.update {
-                it.copy(
-                    isProcessing = false,
-                    results = results,
-                    error = if (results.isEmpty()) "Nessun Pok\u00e9mon riconosciuto. Riprova." else null
-                )
+        // Sort by x-position for dual mode (left = player, right = enemy)
+        val sorted = matches.sortedBy { it.second }
+        val detected = when (scanMode) {
+            is ScanMode.SingleToken -> listOf(sorted.first().first)
+            is ScanMode.DualToken -> sorted.take(2).map { it.first }
+        }
+
+        val expectedCount = when (scanMode) {
+            is ScanMode.SingleToken -> 1
+            is ScanMode.DualToken -> 2
+        }
+
+        _uiState.update { it.copy(detectedPokemon = detected) }
+
+        // Check stability
+        val currentIds = detected.map { it.id }
+        if (currentIds == lastDetectedIds && detected.size >= expectedCount) {
+            stableCount++
+            if (stableCount >= STABLE_FRAMES_REQUIRED) {
+                _uiState.update { it.copy(isConfirmed = true) }
             }
+        } else {
+            lastDetectedIds = currentIds
+            stableCount = 1
         }
     }
 
-    fun clearResults() {
-        _uiState.update { it.copy(results = emptyList(), error = null) }
+    fun reset() {
+        stableCount = 0
+        lastDetectedIds = emptyList()
+        _uiState.update {
+            it.copy(detectedPokemon = emptyList(), isConfirmed = false)
+        }
     }
 
-    private fun rotateBitmap(bitmap: Bitmap, degrees: Int): Bitmap {
-        if (degrees == 0) return bitmap
-        val matrix = Matrix()
-        matrix.postRotate(degrees.toFloat())
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    override fun onCleared() {
+        super.onCleared()
+        textRecognizer.close()
     }
 }

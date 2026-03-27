@@ -89,6 +89,9 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.4")
     implementation("androidx.camera:camera-view:1.3.4")
 
+    // ML Kit Text Recognition (on-device)
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+
     // Accompanist Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
 

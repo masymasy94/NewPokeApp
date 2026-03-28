@@ -2,6 +2,7 @@ package com.app.pokeapp.presentation.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.pokeapp.data.settings.AppSettings
 import com.app.pokeapp.domain.model.BattleCalculator
 import com.app.pokeapp.domain.model.Pokemon
 import com.app.pokeapp.domain.repository.PokemonRepository
@@ -23,12 +24,14 @@ data class BattleUiState(
     val isSecondEvolution: Boolean = false,
     val isEnemyFirstEvolution: Boolean = false,
     val isEnemySecondEvolution: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val maxTypes: Int = 2
 )
 
 @HiltViewModel
 class BattleViewModel @Inject constructor(
-    private val pokemonRepository: PokemonRepository
+    private val pokemonRepository: PokemonRepository,
+    private val appSettings: AppSettings
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BattleUiState())
@@ -36,6 +39,12 @@ class BattleViewModel @Inject constructor(
 
     init {
         loadPokemon()
+        viewModelScope.launch {
+            appSettings.maxPokemonTypes.collect { maxTypes ->
+                _uiState.update { it.copy(maxTypes = maxTypes) }
+                recalculatePowers()
+            }
+        }
     }
 
     private fun loadPokemon() {
@@ -77,12 +86,13 @@ class BattleViewModel @Inject constructor(
         val state = _uiState.value
         val player = state.playerPokemon
         val enemy = state.enemyPokemon
+        val maxTypes = appSettings.maxPokemonTypes.value
 
         val playerPower = if (player != null) {
             BattleCalculator.calculateBattlePower(
                 basePower = player.basePower,
                 moveType = player.move.type,
-                defenderTypes = enemy?.types,
+                defenderTypes = enemy?.types?.take(maxTypes),
                 isFirstEvolution = state.isFirstEvolution,
                 isSecondEvolution = state.isSecondEvolution
             )
@@ -92,7 +102,7 @@ class BattleViewModel @Inject constructor(
             BattleCalculator.calculateBattlePower(
                 basePower = enemy.basePower,
                 moveType = enemy.move.type,
-                defenderTypes = player?.types,
+                defenderTypes = player?.types?.take(maxTypes),
                 isFirstEvolution = state.isEnemyFirstEvolution,
                 isSecondEvolution = state.isEnemySecondEvolution
             )

@@ -2,6 +2,7 @@ package com.app.pokeapp.presentation.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.pokeapp.data.settings.AppSettings
 import com.app.pokeapp.domain.model.BattleCalculator
 import com.app.pokeapp.domain.model.Challenger
 import com.app.pokeapp.domain.model.ChallengerType
@@ -27,13 +28,15 @@ data class GymBattleUiState(
     val selectedDiceBonus: Int = 0,
     val isFirstEvolution: Boolean = false,
     val isSecondEvolution: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val maxTypes: Int = 2
 )
 
 @HiltViewModel
 class GymBattleViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository,
-    private val challengerRepository: ChallengerRepository
+    private val challengerRepository: ChallengerRepository,
+    private val appSettings: AppSettings
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(GymBattleUiState())
@@ -41,6 +44,12 @@ class GymBattleViewModel @Inject constructor(
 
     init {
         loadData()
+        viewModelScope.launch {
+            appSettings.maxPokemonTypes.collect { maxTypes ->
+                _uiState.update { it.copy(maxTypes = maxTypes) }
+                recalculatePowers()
+            }
+        }
     }
 
     private fun loadData() {
@@ -102,12 +111,13 @@ class GymBattleViewModel @Inject constructor(
         val gym = state.selectedGym ?: return
         val enemyPokemon = state.enemyPokemon
         val playerPokemon = state.playerPokemon
+        val maxTypes = appSettings.maxPokemonTypes.value
 
         val enemyPower = if (enemyPokemon != null) {
             BattleCalculator.calculateBattlePower(
                 basePower = gym.basePower + state.selectedDiceBonus,
                 moveType = enemyPokemon.move.type,
-                defenderTypes = playerPokemon?.types
+                defenderTypes = playerPokemon?.types?.take(maxTypes)
             )
         } else 0
 
@@ -115,7 +125,7 @@ class GymBattleViewModel @Inject constructor(
             BattleCalculator.calculateBattlePower(
                 basePower = playerPokemon.basePower,
                 moveType = playerPokemon.move.type,
-                defenderTypes = enemyPokemon?.types,
+                defenderTypes = enemyPokemon?.types?.take(maxTypes),
                 isFirstEvolution = state.isFirstEvolution,
                 isSecondEvolution = state.isSecondEvolution
             )

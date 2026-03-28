@@ -10,4 +10,5 @@ sealed class Screen(val route: String) {
     data object Battle : Screen("battle")
     data object GymBattle : Screen("gym_battle")
     data object RandomEncounter : Screen("random_encounter")
+    data object Settings : Screen("settings")
 }

@@ -115,6 +115,7 @@ fun RandomEncounterScreen(
                         onPlayerImageClick = { showPlayerPicker = true },
                         onEnemyImageClick = { showEnemyPicker = true },
                         onScanClick = { showScanner = true },
+                        maxTypes = uiState.maxTypes,
                         playerBottomContent = uiState.playerPokemon?.let { playerPkm ->
                             {
                                 EvolutionToggleCard(

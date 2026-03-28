@@ -13,6 +13,7 @@ import com.app.pokeapp.presentation.screen.PokemonDetailScreen
 import com.app.pokeapp.presentation.screen.BattleScreen
 import com.app.pokeapp.presentation.screen.GymBattleScreen
 import com.app.pokeapp.presentation.screen.RandomEncounterScreen
+import com.app.pokeapp.presentation.screen.SettingsScreen
 
 @Composable
 fun AppNavHost(
@@ -38,7 +39,8 @@ fun AppNavHost(
                 onNavigateToPokedex = { navController.navigate(Screen.Pokedex.route) },
                 onNavigateToBattle = { navController.navigate(Screen.Battle.route) },
                 onNavigateToGymBattle = { navController.navigate(Screen.GymBattle.route) },
-                onNavigateToRandomEncounter = { navController.navigate(Screen.RandomEncounter.route) }
+                onNavigateToRandomEncounter = { navController.navigate(Screen.RandomEncounter.route) },
+                onNavigateToSettings = { navController.navigate(Screen.Settings.route) }
             )
         }
 
@@ -78,6 +80,12 @@ fun AppNavHost(
 
         composable(Screen.RandomEncounter.route) {
             RandomEncounterScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.Settings.route) {
+            SettingsScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }

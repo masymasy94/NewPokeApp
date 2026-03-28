@@ -38,13 +38,14 @@ fun TypeBadge(
 @Composable
 fun TypeBadgeList(
     types: List<PokemonType>,
+    maxTypes: Int = types.size,
     modifier: Modifier = Modifier
 ) {
     androidx.compose.foundation.layout.Row(
         modifier = modifier,
         horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
     ) {
-        types.forEach { type ->
+        types.take(maxTypes).forEach { type ->
             TypeBadge(type = type)
         }
     }

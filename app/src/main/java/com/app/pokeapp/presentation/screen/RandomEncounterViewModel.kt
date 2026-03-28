@@ -2,6 +2,7 @@ package com.app.pokeapp.presentation.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.pokeapp.data.settings.AppSettings
 import com.app.pokeapp.domain.model.BattleCalculator
 import com.app.pokeapp.domain.model.Pokemon
 import com.app.pokeapp.domain.model.RandomEncounter
@@ -26,13 +27,15 @@ data class RandomEncounterUiState(
     val enemyPower: Int = 0,
     val isFirstEvolution: Boolean = false,
     val isSecondEvolution: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val maxTypes: Int = 2
 )
 
 @HiltViewModel
 class RandomEncounterViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository,
-    private val randomEncounterRepository: RandomEncounterRepository
+    private val randomEncounterRepository: RandomEncounterRepository,
+    private val appSettings: AppSettings
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RandomEncounterUiState())
@@ -40,6 +43,12 @@ class RandomEncounterViewModel @Inject constructor(
 
     init {
         loadData()
+        viewModelScope.launch {
+            appSettings.maxPokemonTypes.collect { maxTypes ->
+                _uiState.update { it.copy(maxTypes = maxTypes) }
+                recalculatePowers()
+            }
+        }
     }
 
     private fun loadData() {
@@ -104,19 +113,20 @@ class RandomEncounterViewModel @Inject constructor(
         val player = state.playerPokemon
         val enemy = state.enemyPokemon
         val encounter = state.selectedEncounter
+        val maxTypes = appSettings.maxPokemonTypes.value
 
         if (player != null && enemy != null) {
             val playerPower = BattleCalculator.calculateBattlePower(
                 basePower = player.basePower,
                 moveType = player.move.type,
-                defenderTypes = enemy.types,
+                defenderTypes = enemy.types.take(maxTypes),
                 isFirstEvolution = state.isFirstEvolution,
                 isSecondEvolution = state.isSecondEvolution
             )
             val enemyPower = BattleCalculator.calculateBattlePower(
                 basePower = encounter?.basePower ?: 0,
                 moveType = enemy.move.type,
-                defenderTypes = player.types
+                defenderTypes = player.types.take(maxTypes)
             )
             _uiState.update { it.copy(playerPower = playerPower, enemyPower = enemyPower) }
         }

@@ -154,6 +154,7 @@ fun GymBattleScreen(
                     onPlayerImageClick = { showPlayerPicker = true },
                     onEnemyImageClick = { showGymPicker = true },
                     onScanClick = { showScanner = true },
+                    maxTypes = uiState.maxTypes,
                     enemyExtraContent = {
                         Button(
                             onClick = { showGymPicker = true },

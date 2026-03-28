@@ -57,6 +57,7 @@ fun BattleArena(
     onEnemyImageClick: (() -> Unit)? = null,
     onScanClick: (() -> Unit)? = null,
     onEnemyExtraAction: (() -> Unit)? = null,
+    maxTypes: Int = 2,
     enemyExtraContent: @Composable (() -> Unit)? = null,
     enemyBottomContent: @Composable (() -> Unit)? = null,
     playerBottomContent: @Composable (() -> Unit)? = null,
@@ -98,6 +99,7 @@ fun BattleArena(
                             isPlayer = false,
                             onImageClick = onEnemyImageClick,
                             onExtraAction = onEnemyExtraAction,
+                            maxTypes = maxTypes,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -230,6 +232,7 @@ fun BattleArena(
                         name = playerName,
                         isPlayer = true,
                         onImageClick = onPlayerImageClick,
+                        maxTypes = maxTypes,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -250,6 +253,7 @@ private fun PokemonBattleSlot(
     isPlayer: Boolean,
     onImageClick: (() -> Unit)? = null,
     onExtraAction: (() -> Unit)? = null,
+    maxTypes: Int = 2,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -405,7 +409,7 @@ private fun PokemonBattleSlot(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            TypeBadgeList(types = pokemon.types)
+            TypeBadgeList(types = pokemon.types, maxTypes = maxTypes)
 
             Spacer(modifier = Modifier.height(8.dp))
 

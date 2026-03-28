@@ -98,6 +98,7 @@ fun BattleScreen(
                         onPlayerImageClick = { showPlayerPicker = true },
                         onEnemyImageClick = { showEnemyPicker = true },
                         onScanClick = { showScanner = true },
+                        maxTypes = uiState.maxTypes,
                         enemyBottomContent = uiState.enemyPokemon?.let { enemyPkm ->
                             {
                                 EvolutionToggleCard(

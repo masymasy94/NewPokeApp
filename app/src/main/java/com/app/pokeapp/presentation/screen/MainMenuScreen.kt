@@ -73,7 +73,8 @@ fun MainMenuScreen(
     onNavigateToPokedex: () -> Unit,
     onNavigateToBattle: () -> Unit,
     onNavigateToGymBattle: () -> Unit,
-    onNavigateToRandomEncounter: () -> Unit
+    onNavigateToRandomEncounter: () -> Unit,
+    onNavigateToSettings: () -> Unit = {}
 ) {
     val menuItems = remember {
         listOf(
@@ -104,6 +105,13 @@ fun MainMenuScreen(
                 iconRes = com.app.pokeapp.R.drawable.youngster_joey,
                 gradientColors = listOf(Color(0xFFFDD835), Color(0xFFF9A825), Color(0xFFF57F17)),
                 onClick = onNavigateToRandomEncounter
+            ),
+            MenuItem(
+                title = "Impostazioni",
+                subtitle = "Regole di gioco",
+                emoji = "\u2699\uFE0F",
+                gradientColors = listOf(Color(0xFF78909C), Color(0xFF546E7A), Color(0xFF37474F)),
+                onClick = onNavigateToSettings
             )
         )
     }

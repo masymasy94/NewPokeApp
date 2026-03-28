@@ -64,6 +64,7 @@ private data class MenuItem(
     val subtitle: String,
     val emoji: String = "",
     val iconRes: Int? = null,
+    val iconSize: Int = 150,
     val gradientColors: List<Color>,
     val onClick: () -> Unit
 )
@@ -111,6 +112,7 @@ fun MainMenuScreen(
                 title = "Musica",
                 subtitle = "Pokeflauto",
                 iconRes = com.app.pokeapp.R.drawable.poke_flute,
+                iconSize = 100,
                 gradientColors = listOf(Color(0xFF42A5F5), Color(0xFF1E88E5), Color(0xFF1565C0)),
                 onClick = onNavigateToMusic
             ),
@@ -333,6 +335,7 @@ fun MainMenuScreen(
                                 subtitle = item.subtitle,
                                 emoji = item.emoji,
                                 iconRes = item.iconRes,
+                                iconSize = item.iconSize,
                                 onClick = item.onClick
                             )
                         }
@@ -351,6 +354,7 @@ private fun MenuCircle(
     subtitle: String,
     emoji: String = "",
     iconRes: Int? = null,
+    iconSize: Int = 150,
     onClick: () -> Unit
 ) {
     Box(
@@ -371,7 +375,7 @@ private fun MenuCircle(
                 Image(
                     painter = painterResource(id = iconRes),
                     contentDescription = title,
-                    modifier = Modifier.size(150.dp),
+                    modifier = Modifier.size(iconSize.dp),
                     contentScale = ContentScale.Fit
                 )
             } else {

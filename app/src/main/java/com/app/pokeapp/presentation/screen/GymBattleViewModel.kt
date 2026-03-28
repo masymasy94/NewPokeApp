@@ -50,6 +50,12 @@ class GymBattleViewModel @Inject constructor(
                 recalculatePowers()
             }
         }
+        viewModelScope.launch {
+            appSettings.superEffectiveMultiplier.collect { recalculatePowers() }
+        }
+        viewModelScope.launch {
+            appSettings.resistanceMultiplier.collect { recalculatePowers() }
+        }
     }
 
     private fun loadData() {
@@ -112,12 +118,16 @@ class GymBattleViewModel @Inject constructor(
         val enemyPokemon = state.enemyPokemon
         val playerPokemon = state.playerPokemon
         val maxTypes = appSettings.maxPokemonTypes.value
+        val superEff = appSettings.superEffectiveMultiplier.value
+        val resistance = appSettings.resistanceMultiplier.value
 
         val enemyPower = if (enemyPokemon != null) {
             BattleCalculator.calculateBattlePower(
                 basePower = gym.basePower + state.selectedDiceBonus,
                 moveType = enemyPokemon.move.type,
-                defenderTypes = playerPokemon?.types?.take(maxTypes)
+                defenderTypes = playerPokemon?.types?.take(maxTypes),
+                superEffective = superEff,
+                notVeryEffective = resistance
             )
         } else 0
 
@@ -127,7 +137,9 @@ class GymBattleViewModel @Inject constructor(
                 moveType = playerPokemon.move.type,
                 defenderTypes = enemyPokemon?.types?.take(maxTypes),
                 isFirstEvolution = state.isFirstEvolution,
-                isSecondEvolution = state.isSecondEvolution
+                isSecondEvolution = state.isSecondEvolution,
+                superEffective = superEff,
+                notVeryEffective = resistance
             )
         } else 0
 

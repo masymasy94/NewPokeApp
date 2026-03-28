@@ -12,8 +12,18 @@ class SettingsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val maxTypes: StateFlow<Int> = appSettings.maxPokemonTypes
+    val superEffective: StateFlow<Float> = appSettings.superEffectiveMultiplier
+    val resistance: StateFlow<Float> = appSettings.resistanceMultiplier
 
     fun setMaxTypes(value: Int) {
         appSettings.setMaxPokemonTypes(value)
+    }
+
+    fun setSuperEffective(value: Float) {
+        appSettings.setSuperEffectiveMultiplier(value.coerceIn(1.0f, 3.0f))
+    }
+
+    fun setResistance(value: Float) {
+        appSettings.setResistanceMultiplier(value.coerceIn(0.0f, 1.0f))
     }
 }

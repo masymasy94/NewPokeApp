@@ -49,6 +49,12 @@ class RandomEncounterViewModel @Inject constructor(
                 recalculatePowers()
             }
         }
+        viewModelScope.launch {
+            appSettings.superEffectiveMultiplier.collect { recalculatePowers() }
+        }
+        viewModelScope.launch {
+            appSettings.resistanceMultiplier.collect { recalculatePowers() }
+        }
     }
 
     private fun loadData() {
@@ -114,6 +120,8 @@ class RandomEncounterViewModel @Inject constructor(
         val enemy = state.enemyPokemon
         val encounter = state.selectedEncounter
         val maxTypes = appSettings.maxPokemonTypes.value
+        val superEff = appSettings.superEffectiveMultiplier.value
+        val resistance = appSettings.resistanceMultiplier.value
 
         if (player != null && enemy != null) {
             val playerPower = BattleCalculator.calculateBattlePower(
@@ -121,12 +129,16 @@ class RandomEncounterViewModel @Inject constructor(
                 moveType = player.move.type,
                 defenderTypes = enemy.types.take(maxTypes),
                 isFirstEvolution = state.isFirstEvolution,
-                isSecondEvolution = state.isSecondEvolution
+                isSecondEvolution = state.isSecondEvolution,
+                superEffective = superEff,
+                notVeryEffective = resistance
             )
             val enemyPower = BattleCalculator.calculateBattlePower(
                 basePower = encounter?.basePower ?: 0,
                 moveType = enemy.move.type,
-                defenderTypes = player.types.take(maxTypes)
+                defenderTypes = player.types.take(maxTypes),
+                superEffective = superEff,
+                notVeryEffective = resistance
             )
             _uiState.update { it.copy(playerPower = playerPower, enemyPower = enemyPower) }
         }

@@ -160,16 +160,28 @@ object TypeEffectiveness {
         )
     )
 
-    fun getEffectiveness(attackType: PokemonType, defenseType: PokemonType): Float {
-        return effectivenessMap[attackType]?.get(defenseType) ?: 1.0f
+    fun getEffectiveness(
+        attackType: PokemonType,
+        defenseType: PokemonType,
+        superEffective: Float = 2.0f,
+        notVeryEffective: Float = 0.5f
+    ): Float {
+        val raw = effectivenessMap[attackType]?.get(defenseType) ?: 1.0f
+        return when (raw) {
+            2.0f -> superEffective
+            0.5f -> notVeryEffective
+            else -> raw
+        }
     }
 
     fun calculateTotalEffectiveness(
         attackType: PokemonType,
-        defenseTypes: List<PokemonType>
+        defenseTypes: List<PokemonType>,
+        superEffective: Float = 2.0f,
+        notVeryEffective: Float = 0.5f
     ): Float {
         return defenseTypes.fold(1.0f) { acc, type ->
-            acc * getEffectiveness(attackType, type)
+            acc * getEffectiveness(attackType, type, superEffective, notVeryEffective)
         }
     }
 

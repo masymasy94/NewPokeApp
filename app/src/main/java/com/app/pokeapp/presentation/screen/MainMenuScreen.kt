@@ -119,7 +119,7 @@ fun MainMenuScreen(
             MenuItem(
                 title = "Impostazioni",
                 subtitle = "Regole di gioco",
-                emoji = "\u2699\uFE0F",
+                iconRes = com.app.pokeapp.R.drawable.ic_settings_gear,
                 gradientColors = listOf(Color(0xFF78909C), Color(0xFF546E7A), Color(0xFF37474F)),
                 onClick = onNavigateToSettings
             )

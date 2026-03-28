@@ -1,0 +1,80 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Flute body -->
+    <path
+        android:pathData="M60,160 L40,170 L35,165 L130,40 L145,35 L150,40 Z"
+        android:fillColor="#D4A24C"/>
+
+    <!-- Flute body highlight -->
+    <path
+        android:pathData="M65,155 L50,163 L135,42 L145,38 Z"
+        android:fillColor="#E8C06A"/>
+
+    <!-- Flute mouthpiece -->
+    <path
+        android:pathData="M130,40 L145,35 L165,20 L160,15 L155,18 L150,40 Z"
+        android:fillColor="#C49040"/>
+
+    <!-- Mouthpiece tip -->
+    <path
+        android:pathData="M155,18 L165,20 L170,12 L162,10 Z"
+        android:fillColor="#B07830"/>
+
+    <!-- Finger holes -->
+    <path
+        android:pathData="M95,95 A4,4 0 1,1 95.01,95"
+        android:fillColor="#8B6020"/>
+    <path
+        android:pathData="M105,83 A4,4 0 1,1 105.01,83"
+        android:fillColor="#8B6020"/>
+    <path
+        android:pathData="M115,71 A4,4 0 1,1 115.01,71"
+        android:fillColor="#8B6020"/>
+    <path
+        android:pathData="M85,107 A4,4 0 1,1 85.01,107"
+        android:fillColor="#8B6020"/>
+
+    <!-- Pokeball decoration - outer circle -->
+    <path
+        android:pathData="M58,142 A14,14 0 1,1 58.01,142"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#333333"
+        android:strokeWidth="2"/>
+
+    <!-- Pokeball top half (red) -->
+    <path
+        android:pathData="M44,142 A14,14 0 0,1 72,142 Z"
+        android:fillColor="#E53935"/>
+
+    <!-- Pokeball divider line -->
+    <path
+        android:pathData="M44,142 L72,142"
+        android:strokeColor="#333333"
+        android:strokeWidth="2"/>
+
+    <!-- Pokeball center button -->
+    <path
+        android:pathData="M58,142 A5,5 0 1,1 58.01,142"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#333333"
+        android:strokeWidth="2"/>
+
+    <!-- Pokeball center dot -->
+    <path
+        android:pathData="M58,142 A2.5,2.5 0 1,1 58.01,142"
+        android:fillColor="#333333"/>
+
+    <!-- Musical notes floating -->
+    <path
+        android:pathData="M30,130 Q25,120 30,115 L32,115 L32,128 A4,4 0 1,1 28,128"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"/>
+    <path
+        android:pathData="M20,110 Q15,100 20,95 L22,95 L22,108 A4,4 0 1,1 18,108"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.4"/>
+</vector>

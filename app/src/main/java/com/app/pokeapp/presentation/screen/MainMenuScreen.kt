@@ -74,7 +74,8 @@ fun MainMenuScreen(
     onNavigateToBattle: () -> Unit,
     onNavigateToGymBattle: () -> Unit,
     onNavigateToRandomEncounter: () -> Unit,
-    onNavigateToSettings: () -> Unit = {}
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToMusic: () -> Unit = {}
 ) {
     val menuItems = remember {
         listOf(
@@ -105,6 +106,13 @@ fun MainMenuScreen(
                 iconRes = com.app.pokeapp.R.drawable.youngster_joey,
                 gradientColors = listOf(Color(0xFFFDD835), Color(0xFFF9A825), Color(0xFFF57F17)),
                 onClick = onNavigateToRandomEncounter
+            ),
+            MenuItem(
+                title = "Musica",
+                subtitle = "Pokeflauto",
+                iconRes = com.app.pokeapp.R.drawable.poke_flute,
+                gradientColors = listOf(Color(0xFF42A5F5), Color(0xFF1E88E5), Color(0xFF1565C0)),
+                onClick = onNavigateToMusic
             ),
             MenuItem(
                 title = "Impostazioni",

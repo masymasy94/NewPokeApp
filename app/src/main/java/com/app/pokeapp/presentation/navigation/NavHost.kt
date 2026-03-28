@@ -14,6 +14,7 @@ import com.app.pokeapp.presentation.screen.BattleScreen
 import com.app.pokeapp.presentation.screen.GymBattleScreen
 import com.app.pokeapp.presentation.screen.RandomEncounterScreen
 import com.app.pokeapp.presentation.screen.SettingsScreen
+import com.app.pokeapp.presentation.screen.MusicScreen
 import com.app.pokeapp.presentation.screen.TypeEffectivenessEditorScreen
 
 @Composable
@@ -41,7 +42,8 @@ fun AppNavHost(
                 onNavigateToBattle = { navController.navigate(Screen.Battle.route) },
                 onNavigateToGymBattle = { navController.navigate(Screen.GymBattle.route) },
                 onNavigateToRandomEncounter = { navController.navigate(Screen.RandomEncounter.route) },
-                onNavigateToSettings = { navController.navigate(Screen.Settings.route) }
+                onNavigateToSettings = { navController.navigate(Screen.Settings.route) },
+                onNavigateToMusic = { navController.navigate(Screen.Music.route) }
             )
         }
 
@@ -89,6 +91,12 @@ fun AppNavHost(
             SettingsScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToTypeEditor = { navController.navigate(Screen.TypeEffectivenessEditor.route) }
+            )
+        }
+
+        composable(Screen.Music.route) {
+            MusicScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
 

@@ -270,10 +270,10 @@ private fun PokemonBattleSlot(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        // Image section
+        // Image section - fixed width to prevent horizontal shifting
         if (pokemon != null) {
             val typeColor = pokemon.types.firstOrNull()?.color ?: MaterialTheme.colorScheme.primary
-            Box(contentAlignment = Alignment.BottomEnd) {
+            Box(modifier = Modifier.width(170.dp), contentAlignment = Alignment.BottomEnd) {
                 Box(
                     modifier = Modifier
                         .size(170.dp)

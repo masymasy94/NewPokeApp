@@ -47,6 +47,7 @@ import com.app.pokeapp.presentation.theme.PokemonColors
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
+    onNavigateToTypeEditor: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val maxTypes by viewModel.maxTypes.collectAsState()
@@ -186,6 +187,46 @@ fun SettingsScreen(
                             value = resistance,
                             onDecrease = { viewModel.setResistance(resistance - 0.25f) },
                             onIncrease = { viewModel.setResistance(resistance + 0.25f) }
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onNavigateToTypeEditor() },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White.copy(alpha = 0.1f)
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column {
+                            Text(
+                                text = "Tabella forze e debolezze",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "Modifica le efficacie tra i tipi",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.White.copy(alpha = 0.6f)
+                            )
+                        }
+                        Text(
+                            text = "\u276F",
+                            color = Color.White.copy(alpha = 0.5f),
+                            fontSize = 20.sp
                         )
                     }
                 }

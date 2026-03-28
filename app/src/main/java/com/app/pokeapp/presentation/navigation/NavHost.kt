@@ -14,6 +14,7 @@ import com.app.pokeapp.presentation.screen.BattleScreen
 import com.app.pokeapp.presentation.screen.GymBattleScreen
 import com.app.pokeapp.presentation.screen.RandomEncounterScreen
 import com.app.pokeapp.presentation.screen.SettingsScreen
+import com.app.pokeapp.presentation.screen.TypeEffectivenessEditorScreen
 
 @Composable
 fun AppNavHost(
@@ -86,6 +87,13 @@ fun AppNavHost(
 
         composable(Screen.Settings.route) {
             SettingsScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToTypeEditor = { navController.navigate(Screen.TypeEffectivenessEditor.route) }
+            )
+        }
+
+        composable(Screen.TypeEffectivenessEditor.route) {
+            TypeEffectivenessEditorScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }

@@ -11,4 +11,5 @@ sealed class Screen(val route: String) {
     data object GymBattle : Screen("gym_battle")
     data object RandomEncounter : Screen("random_encounter")
     data object Settings : Screen("settings")
+    data object TypeEffectivenessEditor : Screen("type_effectiveness_editor")
 }

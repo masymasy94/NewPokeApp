@@ -56,6 +56,9 @@ class GymBattleViewModel @Inject constructor(
         viewModelScope.launch {
             appSettings.resistanceMultiplier.collect { recalculatePowers() }
         }
+        viewModelScope.launch {
+            appSettings.typeOverrides.collect { recalculatePowers() }
+        }
     }
 
     private fun loadData() {

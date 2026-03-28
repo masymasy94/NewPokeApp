@@ -1,6 +1,9 @@
 package com.app.pokeapp.domain.model.enums
 
 object TypeEffectiveness {
+    // Custom overrides set at runtime from AppSettings
+    var customOverrides: Map<String, Float> = emptyMap()
+
     private val effectivenessMap = mapOf(
         PokemonType.NORMAL to mapOf(
             PokemonType.ROCK to 0.5f,
@@ -160,13 +163,19 @@ object TypeEffectiveness {
         )
     )
 
+    fun getRawEffectiveness(attackType: PokemonType, defenseType: PokemonType): Float {
+        val overrideKey = "${attackType.name}->${defenseType.name}"
+        customOverrides[overrideKey]?.let { return it }
+        return effectivenessMap[attackType]?.get(defenseType) ?: 1.0f
+    }
+
     fun getEffectiveness(
         attackType: PokemonType,
         defenseType: PokemonType,
         superEffective: Float = 2.0f,
         notVeryEffective: Float = 0.5f
     ): Float {
-        val raw = effectivenessMap[attackType]?.get(defenseType) ?: 1.0f
+        val raw = getRawEffectiveness(attackType, defenseType)
         return when (raw) {
             2.0f -> superEffective
             0.5f -> notVeryEffective

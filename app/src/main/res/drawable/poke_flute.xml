@@ -4,77 +4,130 @@
     android:viewportWidth="200"
     android:viewportHeight="200">
 
-    <!-- Flute body -->
+    <!-- Shadow -->
     <path
-        android:pathData="M60,160 L40,170 L35,165 L130,40 L145,35 L150,40 Z"
-        android:fillColor="#D4A24C"/>
+        android:pathData="M52,168 C52,172 148,172 148,168 C148,164 52,164 52,168"
+        android:fillColor="#00000030"/>
 
-    <!-- Flute body highlight -->
+    <!-- Flute body (recorder shape, vertical) -->
     <path
-        android:pathData="M65,155 L50,163 L135,42 L145,38 Z"
-        android:fillColor="#E8C06A"/>
+        android:pathData="M88,30 L112,30 C114,30 116,32 116,34 L116,150 C116,158 108,165 100,165 C92,165 84,158 84,150 L84,34 C84,32 86,30 88,30 Z"
+        android:fillColor="#F5DEB3"/>
 
-    <!-- Flute mouthpiece -->
+    <!-- Flute body shading (left side darker) -->
     <path
-        android:pathData="M130,40 L145,35 L165,20 L160,15 L155,18 L150,40 Z"
-        android:fillColor="#C49040"/>
+        android:pathData="M88,30 L96,30 L96,165 C93,164 90,162 87,158 L84,150 L84,34 C84,32 86,30 88,30 Z"
+        android:fillColor="#E8D0A0"/>
 
-    <!-- Mouthpiece tip -->
+    <!-- Flute body highlight (right side lighter) -->
     <path
-        android:pathData="M155,18 L165,20 L170,12 L162,10 Z"
-        android:fillColor="#B07830"/>
+        android:pathData="M108,30 L112,30 C114,30 116,32 116,34 L116,150 C116,155 114,159 111,162 L108,30 Z"
+        android:fillColor="#FFF8E7"/>
+
+    <!-- Mouthpiece (top, slightly wider) -->
+    <path
+        android:pathData="M86,18 L114,18 C116,18 118,20 118,22 L118,32 L82,32 L82,22 C82,20 84,18 86,18 Z"
+        android:fillColor="#D2B48C"/>
+
+    <!-- Mouthpiece bevel -->
+    <path
+        android:pathData="M86,14 L114,14 C115,14 116,15 116,16 L116,20 L84,20 L84,16 C84,15 85,14 86,14 Z"
+        android:fillColor="#C4A67A"/>
+
+    <!-- Window/labium (the sound hole at top of recorder) -->
+    <path
+        android:pathData="M95,24 L105,24 L105,30 L95,30 Z"
+        android:fillColor="#6B4226"/>
 
     <!-- Finger holes -->
     <path
-        android:pathData="M95,95 A4,4 0 1,1 95.01,95"
-        android:fillColor="#8B6020"/>
+        android:pathData="M100,55 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0"
+        android:fillColor="#6B4226"/>
     <path
-        android:pathData="M105,83 A4,4 0 1,1 105.01,83"
-        android:fillColor="#8B6020"/>
+        android:pathData="M100,70 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0"
+        android:fillColor="#6B4226"/>
     <path
-        android:pathData="M115,71 A4,4 0 1,1 115.01,71"
-        android:fillColor="#8B6020"/>
+        android:pathData="M100,85 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0"
+        android:fillColor="#6B4226"/>
     <path
-        android:pathData="M85,107 A4,4 0 1,1 85.01,107"
-        android:fillColor="#8B6020"/>
+        android:pathData="M100,100 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0"
+        android:fillColor="#6B4226"/>
+    <path
+        android:pathData="M100,115 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="#6B4226"/>
+    <path
+        android:pathData="M100,128 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="#6B4226"/>
 
-    <!-- Pokeball decoration - outer circle -->
+    <!-- Decorative ring 1 -->
     <path
-        android:pathData="M58,142 A14,14 0 1,1 58.01,142"
+        android:pathData="M84,44 L116,44 L116,47 L84,47 Z"
+        android:fillColor="#C4A67A"/>
+
+    <!-- Decorative ring 2 -->
+    <path
+        android:pathData="M84,140 L116,140 L116,143 L84,143 Z"
+        android:fillColor="#C4A67A"/>
+
+    <!-- Bell (bottom flare) -->
+    <path
+        android:pathData="M84,148 L116,148 C120,148 124,155 124,160 C124,164 116,165 100,165 C84,165 76,164 76,160 C76,155 80,148 84,148 Z"
+        android:fillColor="#E8D0A0"/>
+
+    <!-- Bell highlight -->
+    <path
+        android:pathData="M110,148 C116,148 120,152 122,157 C118,162 112,164 100,165 L100,148 Z"
+        android:fillColor="#F5DEB3"
+        android:fillAlpha="0.5"/>
+
+    <!-- Pokeball decoration (on the body) -->
+    <!-- Outer circle -->
+    <path
+        android:pathData="M100,42 m-0.01,0 a0.01,0.01 0 1,0 0.02,0 a0.01,0.01 0 1,0 -0.02,0"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Pokeball circle background -->
+    <path
+        android:pathData="M130,85 m-18,0 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0"
         android:fillColor="#FFFFFF"
         android:strokeColor="#333333"
-        android:strokeWidth="2"/>
+        android:strokeWidth="2.5"/>
 
     <!-- Pokeball top half (red) -->
     <path
-        android:pathData="M44,142 A14,14 0 0,1 72,142 Z"
+        android:pathData="M112,85 A18,18 0 0,1 148,85 Z"
         android:fillColor="#E53935"/>
 
-    <!-- Pokeball divider line -->
+    <!-- Pokeball divider -->
     <path
-        android:pathData="M44,142 L72,142"
+        android:pathData="M112,85 L148,85"
         android:strokeColor="#333333"
-        android:strokeWidth="2"/>
+        android:strokeWidth="2.5"/>
 
-    <!-- Pokeball center button -->
+    <!-- Pokeball center button outer -->
     <path
-        android:pathData="M58,142 A5,5 0 1,1 58.01,142"
+        android:pathData="M130,85 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0"
         android:fillColor="#FFFFFF"
         android:strokeColor="#333333"
         android:strokeWidth="2"/>
 
-    <!-- Pokeball center dot -->
+    <!-- Pokeball center button inner -->
     <path
-        android:pathData="M58,142 A2.5,2.5 0 1,1 58.01,142"
+        android:pathData="M130,85 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0"
         android:fillColor="#333333"/>
 
-    <!-- Musical notes floating -->
+    <!-- Musical notes -->
     <path
-        android:pathData="M30,130 Q25,120 30,115 L32,115 L32,128 A4,4 0 1,1 28,128"
-        android:fillColor="#FFFFFF"
-        android:fillAlpha="0.6"/>
+        android:pathData="M60,50 L60,35 L68,32 L68,47 M68,47 m-4,0 a4,5 0 1,0 8,0 a4,5 0 1,0 -8,0"
+        android:fillColor="#FFD54F"
+        android:strokeColor="#FFB300"
+        android:strokeWidth="1.5"/>
+
     <path
-        android:pathData="M20,110 Q15,100 20,95 L22,95 L22,108 A4,4 0 1,1 18,108"
-        android:fillColor="#FFFFFF"
-        android:fillAlpha="0.4"/>
+        android:pathData="M45,70 L45,58 L51,56 L51,68 M51,68 m-3,0 a3,4 0 1,0 6,0 a3,4 0 1,0 -6,0"
+        android:fillColor="#FFD54F"
+        android:fillAlpha="0.7"
+        android:strokeColor="#FFB300"
+        android:strokeAlpha="0.7"
+        android:strokeWidth="1"/>
 </vector>
